@@ -3,8 +3,15 @@ title: Creating My First R Package Part 1
 date: '2016-07-26'
 slug: creating-my-first-r-package-part-1
 categories: [R, Code]
-description: My struggles with STATA and how it motivated me to want to create my first R package.  
+description: My struggles with STATA and how it motivated me to want to create my first R package.
+image: "/img/package-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/8N6z4yXUkwY
+artist: Midlee
+licence: unsplash free-to-use 
+-->
 
 As I mentioned in my [previous post](https://hookedondata.org/From-Social-Scientist-to-Data-Scientist/), I was fortunate to enter graduate school with a few years of programming experience in R. I learned R exclusively through my Statistics classes; while I took the graduate-level psychology statistics course at Rice and was a research assistant in multiple departments, all used SPSS.  
 

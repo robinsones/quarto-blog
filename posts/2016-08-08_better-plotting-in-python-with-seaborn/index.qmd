@@ -4,7 +4,14 @@ date: '2016-08-08'
 slug: better-plotting-in-python-with-seaborn
 categories: [Python, Visualization, Code]
 description: An introduction to Seaborn so you too don't almost quit your bootcamp over matplotlib.
+image: "/img/graph-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/8N6z4yXUkwY
+artist: Isaac Smith
+licence: unsplash free-to-use 
+-->
 
 ## The Bright Blue Horror
 

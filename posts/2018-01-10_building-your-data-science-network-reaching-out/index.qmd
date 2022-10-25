@@ -4,7 +4,14 @@ date: '2018-01-10'
 slug: building-your-data-science-network-reaching-out
 categories: [Career]
 description: How to effectively reach out to people in your field directly.
+image: "/img/reachingout-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/TStNU7H4UEE
+artist: Marc-Olivier Jodoin
+licence: unsplash free-to-use 
+-->
 
 In [the other part](https://hookedondata.org/Building-Your-Data-Science-Network-Finding-Community/) of this post, I covered how to start becoming involved in the data science community and meet people in general. But what if you read a really cool post by someone and want to follow up with them? This post offers some thoughts on how you can most effectively reach out to specific people. 
 

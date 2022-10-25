@@ -4,7 +4,14 @@ date: '2017-11-30'
 slug: making-r-code-faster-a-case-study
 categories: [Code, R]
 description: How I sped up my R code and went from it taking 3 minutes to run one iteration to taking less than a second to run 10,000.
+image: "/img/horses-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/IojCPQ2rWe8
+artist: Julia Joppien
+licence: unsplash free-to-use 
+-->
 
 About two months ago I put a call out to Rstats twitter:
 

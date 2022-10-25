@@ -4,7 +4,14 @@ date: '2021-04-05'
 slug: publishing-tech-book-part-3
 categories: [Career, Publishing]
 description: "An inside look into how to find the time to write a book and what it's like to work with a co-author and publisher."
+image: "/img/typewriter-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/mk7D-4UCfmg
+artist: Florian Klauer
+licence: unsplash free-to-use 
+-->
 
 [This is my third post on publishing a technical book. Check out the previous posts on [why you should (and shouldn't) write a book](https://hookedondata.org/publishing-tech-book-part-1/) and [how to find a publisher](https://hookedondata.org/publishing-tech-book-part-2/).]
 

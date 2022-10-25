@@ -4,7 +4,14 @@ date: '2018-01-10'
 slug: building-your-data-science-network-finding-community
 categories: [Career]
 description: Where to find other people in your field. 
+image: "/img/summit-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/wJK9eTiEZHY
+artist: Natalie Pedigo
+licence: unsplash free-to-use 
+-->
 
 So you've heard you're supposed to network. That's the key in getting a job or establishing a reputation in your broader field, right? And it's true that the importance of having a good network is supported by [a lot of social sciences research](https://hbr.org/2016/05/learn-to-love-networking).  But if the thought of networking makes you cringe, you're not alone. Many people equate networking to sending out millions of unsolicited Linkedin requests with no message, handing out 20 business cards at a meetup once a week, or sending emails to prominent data scientists with the subject line "Can I pick your brain?" That's not very appealing to most people, and it turns out [not very effective](https://www.fastcompany.com/3036672/what-we-learned-from-sending-1000-cold-emails) either. 
 

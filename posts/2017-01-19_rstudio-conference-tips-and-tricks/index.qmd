@@ -4,7 +4,14 @@ date: '2017-01-19'
 slug: rstudio-conference-tips-and-tricks
 categories: [Conference, R, Code]
 description: A summary of my top technical takeaways from rstudio::conf(2017). 
+image: "/img/tipjar-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/-rF4kuvgHhU
+artist: Sam Dan Truong
+licence: unsplash free-to-use 
+-->
 
 This is the second part of my posts on the rstudio::conf. If you're interested in more general thoughts on the conference and some personal notes, check out my [other post](hookedondata.org/RStudio-Conference-Recap/). This post is to gather, as succintly and organized as possible, the practical and technical things I learned at the conference. While I did a whole training day on writing R Packages, I haven't included most of what I've learned here. Instead, I'll be integrating it into a future post on writing my first R package. 
 

@@ -5,7 +5,14 @@ date: '2021-04-04'
 slug: publishing-tech-book-part-2
 categories: [Career, Publishing]
 description: "Demystifying how to find a technical book publisher, what they help with, and if you should think about self-publishing."
+image: "/img/desk-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/q10VITrVYUM 
+artist: Jess Bailey
+licence: unsplash free-to-use 
+-->
 
 [This is my second post on publishing a technical book. If you're not sure if you should write a book, check out [part 1](https://hookedondata.org/publishing-tech-book-part-1/).]
 

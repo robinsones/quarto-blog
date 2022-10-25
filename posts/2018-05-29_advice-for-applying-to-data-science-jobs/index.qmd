@@ -4,7 +4,14 @@ date: '2018-05-29'
 slug: advice-for-applying-to-data-science-jobs
 categories: [Career]
 description: Some tips for applying, interviewing, and negotiating for data science jobs. 
+image: "/img/oneway-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/pKeF6Tt3c08
+artist: Brendan Church
+licence: unsplash free-to-use 
+-->
 
 Following Dave Robinson’s sage tweet to [write a blog post](https://twitter.com/drob/status/928447584712253440) when you've given the same advice three times, this post is a collection of my thoughts and recommendations for people interested in applying to data science jobs in the US. Many of these principles also apply to tech jobs in general. 
 

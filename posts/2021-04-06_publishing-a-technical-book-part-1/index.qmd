@@ -4,7 +4,14 @@ date: '2021-04-03'
 slug: publishing-tech-book-part-1
 categories: [Career, Publishing]
 description: "What are (and aren't) the benefits of writing a technical book?"
+image: "/img/books-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/_nm_mZ4Cs2I
+artist: Rey Seven
+licence: unsplash free-to-use 
+-->
 
 Following the sage wisdom of brother Dave to [write a blog post when you’ve given the same advice three times](https://twitter.com/drob/status/928447584712253440?s=20), after I had a few people reach out to me with questions about writing a technical book, I've put together my thoughts in this four-part series a year after publishing [Build a Career in Data Science](http://www.datascicareer.com) with Jacqueline Nolis. 
 

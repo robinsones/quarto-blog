@@ -4,8 +4,14 @@ date: '2019-08-20'
 slug: pokemon-type-combinations
 categories: [R, Code]
 description: "Finding the best Pokémon type combinations for a maximally effective team."
-
+image: "/img/pokemon-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/dip9IIwUK6w
+artist: Thimo Pedersen
+licence: unsplash free-to-use 
+-->
 
 I recently started playing Pokémon again - ["Pokémon Let's Go Eevee"](https://www.amazon.com/Pokémon-Lets-Go-Eevee-Switch/dp/B01N7RE3HB) on the Nintendo Switch to be specific. In the classic Pokémon games, you have a team of 6 Pokémon that you use to battle against other trainers. In battles, type match-ups are very important, as some types of moves are "super effective" against other types. For example, fire moves are super effective against grass Pokémon, which means they do double the damage they normally would. If you can set your team up so that you're always optimally matched, you're going to have a much easier time. 
 

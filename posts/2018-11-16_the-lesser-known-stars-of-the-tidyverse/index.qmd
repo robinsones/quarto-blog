@@ -8,7 +8,14 @@ tags:
   - R
   - Code
 description: Using exploratory data analysis to shine a light on other tidyverse functions and packages you may not know.
+image: "/img/stars-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/ln5drpv_ImI
+artist: Vincentiu Solomon
+licence: unsplash free-to-use 
+-->
 
 In early 2018, I gave a few conference talks on "The Lesser Known Stars of the Tidyverse." I focused on some packages and functions that aren't as well known as the core parts of ggplot2 and dplyr but are very helpful in exploratory analysis. I walked through an example analysis of [Kaggle's 2017 State of Data Science and Machine Learning Survey](https://www.kaggle.com/kaggle/kaggle-survey-2017) to show how I would use these functions in an exploratory analysis. 
 

@@ -4,7 +4,14 @@ date: '2018-08-07'
 slug: guidelines-for-ab-testing
 categories: [A/B Testing]
 description: 12 Guidelines to help you run more effective, trustworthy A/B tests.
+image: "/img/beakers-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/lQGJCMY5qcM
+artist: Hans Reniers
+licence: unsplash free-to-use 
+-->
 
 When I was working at Etsy, I benefited from a very robust A/B testing system. Etsy had been doing A/B testing for more than 6 years. By the time I left, Etsy's in-house experimentation system, called Catapult, had more than 5 data engineers working on it full-time. Every morning, I was greeted with a homepage that listed all the experiments that Etsy had run in the prior four years. When you clicked on one, you got a summary of what the experiment was testing (usually written by the product manager). Numbers for all the key metrics, such as conversion rate and add to cart rate, were already calculated. You could easily add any event that happened on the site and get those rates calculated too. You got to see the % change from the control to treatment with its accompanying p-value and how many days until we had 80% power to detect a 1% change. We even had beautiful little confidence intervals that changed color based on whether they overlapped with zero! 
 

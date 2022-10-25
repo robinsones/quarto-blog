@@ -4,7 +4,14 @@ date: '2019-08-14'
 slug: exploring-bob-ross-paintings
 categories: [R, Code, Visualization]
 description: Using the tidyverse and PCA to explore the features of Bob Ross' paintings. 
+image: "/img/mountains-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/r53rNKb_7s8
+artist: Bob Canning
+licence: unsplash free-to-use 
+-->
 
 In this post, I try something new and share an analysis I did without stopping to explain the code along the way (with a few exceptions). I analyze a dataset on Bob Ross paintings from last week's Tidytuesday, an initiative by the [R for Data Science online learning community](https://www.rfordatasci.com/). Each Monday, a new dataset is posted on [GitHub](https://github.com/rfordatascience/tidytuesday) with a short description. You can see some analyses and visualizations people have done by searching for the [#tidytuesday hashtag on Twitter](https://twitter.com/search?q=%23tidytuesday). 
 

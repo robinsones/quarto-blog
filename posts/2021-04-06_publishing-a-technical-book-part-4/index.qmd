@@ -4,7 +4,14 @@ date: '2021-04-06'
 slug: publishing-tech-book-part-4
 categories: [Career, Publishing]
 description: "What it's like after your book is finished and available in the wild."
+image: "/img/bookstore-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/sfL_QOnmy00
+artist: Janko Ferlič 
+licence: unsplash free-to-use 
+-->
 
 [This is my final post on publishing a technical book. If you're wondering [if you should write one](https://hookedondata.org/publishing-tech-book-part-1/), [how to find a publisher](https://hookedondata.org/publishing-tech-book-part-2/), or [what the writing process is like](https://hookedondata.org/publishing-tech-book-part-3/), start from the beginning.]
 

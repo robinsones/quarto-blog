@@ -4,7 +4,14 @@ date: '2016-07-05'
 slug: from-social-scientist-to-data-scientist
 categories: []
 description: Reflections on starting my transitino from social science academia into the data science field.
+image: "/img/electric-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/ImcUkZ72oUs
+artist: Israel Palacio
+licence: unsplash free-to-use 
+-->
 
 I learned a lot in my two years at INSEAD getting a master’s in Organizational Behavior. Many of the skills and knowledge I gained there will be beneficial as a data scientist, from defining a problem to carrying out a thoughtful analysis to communicating to a range of audiences. But one skill I wasn't developing was working in an industry-level coding environment.
 

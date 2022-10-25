@@ -4,7 +4,14 @@ date: '2019-01-09'
 slug: going-off-the-map
 categories: [R, Code]
 description: A walkthrough of some lesser-known purrr functions.
+image: "/img/map-unsplash.jpg"
 ---
+<!-- 
+cover img: https://unsplash.com/photos/kZO9xqmO_TA
+artist: Annie Spratt
+licence: unsplash free-to-use 
+-->
+
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(error = TRUE)

@@ -4,7 +4,14 @@ date: '2018-02-14'
 slug: the-importance-of-sponsorship
 categories: [Career]
 description: While many people know about mentorship, many fewer are familiar with sponsorship, even though it can actually be more important.
+image: "/img/compass-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/_94HLr_QXo8
+artist: Jamie Street
+licence: unsplash free-to-use 
+-->
 
 In my [last post](https://hookedondata.org/Building-Your-Data-Science-Network-Reaching-Out/), I discussed the importance of building your network and some strategies for effectively reaching out. I closed with emphasizing how helpful your peers or people one step ahead of you can be. But there's a specific area where people with more resources, status, or experience can help you: sponsorship. 
 

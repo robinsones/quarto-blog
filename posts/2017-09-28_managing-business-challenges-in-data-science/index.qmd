@@ -4,7 +4,14 @@ date: '2017-09-28'
 slug: managing-business-challenges-in-data-science
 categories: [Career]
 description: A few tips to help you work more effectively with your non-analyst stakeholders.
+image: "/img/postits-unsplash.jpg"
 ---
+
+<!-- 
+cover img: https://unsplash.com/photos/ETRPjvb0KM0
+artist: Patrick Perkins
+licence: unsplash free-to-use 
+-->
 
 A few weeks ago, I [wrote about](https://hookedondata.org/Giving-Your-First-Data-Science-Talk/) my experience giving my first data science talk. If you're interested, the full talk is available [online](https://www.youtube.com/watch?v=SF-ryGgLOgQ), as well as the [slides](https://github.com/robinsones/AB-Testing-Slides). In this post, I wanted to share some suggestions for managing business challenges that I didn't have time to cover in my talk.
 
