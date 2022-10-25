@@ -2,8 +2,8 @@
 title: From Social Scientist to Data Scientist
 date: '2016-07-05'
 slug: from-social-scientist-to-data-scientist
-categories: []
-description: Reflections on starting my transitino from social science academia into the data science field.
+categories: [Career]
+description: Reflections on starting my transition from social science academia into data science field.
 image: "/img/electric-unsplash.jpg"
 ---
 
