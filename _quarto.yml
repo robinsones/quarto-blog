@@ -14,7 +14,7 @@ website:
         href: https://twitter.com/robinson_es
 format:
   html:
-    theme: cosmo
+    theme: custom.scss
     css: styles.css
 
 

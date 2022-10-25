@@ -1,0 +1,10 @@
+/*-- scss:defaults --*/
+
+// use cosmo as the base
+$theme: "cosmo" !default;
+
+// change primary color
+$primary: #01364C;
+$navbar-fg: #F7F8F9;
+$navbar-hl: #F7F8F9;
+$link-color: lighten(#01364C, 10%);
