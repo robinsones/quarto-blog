@@ -150,8 +150,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-do-a-talk" id="toc-why-do-a-talk" class="nav-link active" data-scroll-target="#why-do-a-talk">Why do a Talk?</a></li>
-  <li><a href="#giving-a-talk" id="toc-giving-a-talk" class="nav-link" data-scroll-target="#giving-a-talk">Giving a Talk</a></li>
+  <li><a href="#why-do-a-talk" id="toc-why-do-a-talk" class="nav-link active" data-scroll-target="#why-do-a-talk">Why do a Talk?</a>
+  <ul class="collapse">
+  <li><a href="#giving-back" id="toc-giving-back" class="nav-link" data-scroll-target="#giving-back">Giving Back</a></li>
+  <li><a href="#personal-benefits" id="toc-personal-benefits" class="nav-link" data-scroll-target="#personal-benefits">Personal Benefits</a></li>
+  </ul></li>
+  <li><a href="#giving-a-talk" id="toc-giving-a-talk" class="nav-link" data-scroll-target="#giving-a-talk">Giving a Talk</a>
+  <ul class="collapse">
+  <li><a href="#target-the-you-of-six-months-one-year-five-years-ago" id="toc-target-the-you-of-six-months-one-year-five-years-ago" class="nav-link" data-scroll-target="#target-the-you-of-six-months-one-year-five-years-ago">Target the you of six months (one year, five years) ago</a></li>
+  <li><a href="#dont-have-text-or-idea-heavy-slides" id="toc-dont-have-text-or-idea-heavy-slides" class="nav-link" data-scroll-target="#dont-have-text-or-idea-heavy-slides">Don’t have text or idea heavy slides</a></li>
+  <li><a href="#practice-practice-practice-and-ask-for-feedback" id="toc-practice-practice-practice-and-ask-for-feedback" class="nav-link" data-scroll-target="#practice-practice-practice-and-ask-for-feedback">Practice, practice, practice (and ask for feedback!)</a></li>
+  <li><a href="#rally-your-support-team" id="toc-rally-your-support-team" class="nav-link" data-scroll-target="#rally-your-support-team">Rally your support team</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -183,9 +193,12 @@ Because relying on public code massively discriminates in favour of those who ha
 — Hadley Wickham (<span class="citation" data-cites="hadleywickham">@hadleywickham</span>) <a href="https://twitter.com/hadleywickham/status/883295260079685634">July 7, 2017</a>
 </blockquote>
 <script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p><em>Giving Back</em></p>
+<section id="giving-back" class="level3">
+<h3 class="anchored" data-anchor-id="giving-back">Giving Back</h3>
 <p>On the other hand, if you’re considering giving a talk but think you don’t have anything to contribute, don’t underestimate yourself! You probably have more to offer than you think. The main reason an open source language can thrive is because of the community that contributes to it, usually without being paid. Certainly one way to give back is by contributing code, but you can also give talks or write blog posts. While I haven’t made or contributed code to a public package (yet!), I believe that this blog and recorded, free talks can help.</p>
-<p><em>Personal Benefits</em></p>
+</section>
+<section id="personal-benefits" class="level3">
+<h3 class="anchored" data-anchor-id="personal-benefits">Personal Benefits</h3>
 <blockquote class="twitter-tweet blockquote" data-lang="en">
 <p lang="en" dir="ltr">
 Create things useful to other people. <a href="https://t.co/MgptvBTeOz">https://t.co/MgptvBTeOz</a>
@@ -195,19 +208,27 @@ Create things useful to other people. <a href="https://t.co/MgptvBTeOz">https://
 <script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p>Giving a talk is a great way to build your network and raise your data science profile. While you can (and certainly should!) meet new people as an attendee, when you’re the speaker, people will probably come up to you after the talk to continue the discussion. And if your talk is recorded and publicly shared, you’ll have a public piece of work available.</p>
 </section>
+</section>
 <section id="giving-a-talk" class="level2">
 <h2 class="anchored" data-anchor-id="giving-a-talk">Giving a Talk</h2>
-<p><em>Target the you of six months (one year, five years) ago</em></p>
+<section id="target-the-you-of-six-months-one-year-five-years-ago" class="level3">
+<h3 class="anchored" data-anchor-id="target-the-you-of-six-months-one-year-five-years-ago">Target the you of six months (one year, five years) ago</h3>
 <p>One of my favorite parts about working at Etsy is the womenby (women and non-binary) in tech group. We have a private slack channel, and the day after my talk, a senior engineer was asking for opinions on an upcoming talk. She wanted to frame the talk as a story about how they built a distributed streaming platform on docker and the mistakes they made, but she worried it would make her and her team look inexperienced and possibly stupid for not anticipating the difficulties.</p>
 <p>My advice was to think of yourself before taking on this project and ask if you would have found it useful then. I would bet most of the time the answer is yes, and that the audience is more similar to you six months ago than you after this experience.</p>
-<p><em>Don’t have text or idea heavy slides</em></p>
+</section>
+<section id="dont-have-text-or-idea-heavy-slides" class="level3">
+<h3 class="anchored" data-anchor-id="dont-have-text-or-idea-heavy-slides">Don’t have text or idea heavy slides</h3>
 <p>Having seen multiple paragraphs in size 10 font literally read off of a slide, I thought I was doing pretty well in the initial version of my talk. I had no slides with more than a few bullet points and in a few of them I had varied up the design. But on one these slides, even though there were only about 20 words in six nice little boxes, I was trying to cover six points in one go!</p>
 <p>While I had avoided visual overload, I hadn’t thought about the cognitive overload. To solve the issue with my slide, I switched to only cover three points and spread them out over about twelve slides. Although I ended up covering fewer points, no one’s going to remember everything about your talk. Focus on keeping your audience engaged so that they can absorb the points most relevant to them.</p>
 <p>I highly advise you to check out <a href="https://speakerdeck.com/mseckington/the-art-of-slide-design">this deck on slide design</a> for more tips and examples.</p>
-<p><em>Practice, practice, practice (and ask for feedback!)</em></p>
+</section>
+<section id="practice-practice-practice-and-ask-for-feedback" class="level3">
+<h3 class="anchored" data-anchor-id="practice-practice-practice-and-ask-for-feedback">Practice, practice, practice (and ask for feedback!)</h3>
 <p>This sounds pretty basic, but it can be easy to procrastinate on preparing the talk and feel just reading over the slides is fine. Fortunately as an Etsy employee I had to submit my slides to our communication and legal teams ahead of time, so I was forced to make them early.</p>
 <p>Starting two weeks before my presentation, I practiced with five different people (a few of them multiple times). Try to get people with different backgrounds: I practiced with fellow and former Etsy analysts, but also with my non-technical (but presentation expert) sister-in-law. Their advice was very helpful in improving the slides and the talk, but I also found that simply giving the talk out loud helped me see where transitions or slides didn’t work.</p>
-<p><em>Rally your support team</em></p>
+</section>
+<section id="rally-your-support-team" class="level3">
+<h3 class="anchored" data-anchor-id="rally-your-support-team">Rally your support team</h3>
 <p>While I feel fairly comfortable with public speaking, I’d never done it to an audience this size or on data science. I was also shy about promoting my talk.</p>
 <p>This is where your supporters can come in to help. My manager advertised my talk at work, my brother tweeted about it, and the other NYC rladies organizers promoted it in our slack channel. Many of them also came to the talk (my brother almost straight off a flight from London!), so I had some friendly faces in the audience.</p>
 <p>And finally, if your nerves start overcoming you before your talk, just remember this classic and sage advice from one of my search engineering partners:</p>
@@ -221,6 +242,7 @@ Best advice for reducing nerves before giving a data science talk: "just imagine
 <p>If you found this post useful, you might be interested in the book on data science careers I wrote with <a href="https://jnolis.com">Jacqueline Nolis</a>, <a href="https://datascicareer.com">“Build Your Career in Data Science,”</a>, available for 40% off with the code buildbook40%.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

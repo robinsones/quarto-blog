@@ -187,7 +187,7 @@ unnested_workmethods %>%
 
 We see the classic methods of data visualization, logistic regression, and cross-validation lead the pack. 
 
-### Graphing Frequency of Different Work Challenges 
+## Graphing Frequency of Different Work Challenges 
 
 Now let's move on to understanding what challenges people face at work. This was one of those categories where there were multiple questions asked, all having names starting with `WorkChallengeFrequency` and ending with the challenge (e.g "DirtyData"). 
 
@@ -257,7 +257,7 @@ ggplot(perc_problem_work_challenge,
 
 Much better! You can now easily tell which work challenges are encountered most frequently. 
 
-### Conclusion
+## Conclusion
 
 I'm a big advocate of using and teaching the tidyverse for data analysis and visualization in R (it runs [in the family](http://varianceexplained.org/r/teach-tidyverse/)). In addition to doing these talks, I've released a DataCamp course on [Categorical Data in the Tidyverse](https://www.datacamp.com/courses/categorical-data-in-the-tidyverse). I walk through some of the functions in this course and more from forcats. It's part of the new [Tidyverse Fundamentals skill track](https://www.datacamp.com/tracks/tidyverse-fundamentals), which is suitable for people are new to R or those looking to switch to the tidyverse. Check it out and let us know what you think. 
 

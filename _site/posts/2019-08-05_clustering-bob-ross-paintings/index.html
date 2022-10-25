@@ -216,10 +216,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#set-up" id="toc-set-up" class="nav-link active" data-scroll-target="#set-up">Set up</a></li>
-  <li><a href="#exploratory-graphs" id="toc-exploratory-graphs" class="nav-link" data-scroll-target="#exploratory-graphs">Exploratory graphs</a>
-  <ul class="collapse">
+  <li><a href="#exploratory-graphs" id="toc-exploratory-graphs" class="nav-link" data-scroll-target="#exploratory-graphs">Exploratory graphs</a></li>
   <li><a href="#principal-component-analysis" id="toc-principal-component-analysis" class="nav-link" data-scroll-target="#principal-component-analysis">Principal Component Analysis</a></li>
-  </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
@@ -450,8 +448,9 @@ licence: unsplash free-to-use
 </div>
 </div>
 <p>Most paintings have between 5 and 11 features, although one has more than 15 and a couple have none.</p>
-<section id="principal-component-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="principal-component-analysis">Principal Component Analysis</h3>
+</section>
+<section id="principal-component-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="principal-component-analysis">Principal Component Analysis</h2>
 <p>In short, principal component analysis is a dimensionality-reduction technique that takes all of your variables and creates a new set of characteristics that still contains the most information. For more information, I highly recommend checking out <a href="https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues">this StackOverflow answer</a> for great explanations from simple to mathematical and Julia Silge’s <a href="https://juliasilge.com/blog/stack-overflow-pca/">post</a> where she explains principal component analysis using StackOverflow data.</p>
 <p>We’ll start by selecting only features that appear in at least 5 paintings and calculate three principal components, adding <code>scale = TRUE</code> to scale the features. This is a critical step; while the features are all on the same scale (0 or 1, not say 0 or 100 for one and 0 or 50 for another), they have different variances as some have a lot of 1s and some a lot of 0s. We need to center our data so that they all have the same mean and variance.</p>
 <div class="cell">
@@ -487,7 +486,6 @@ licence: unsplash free-to-use
 </div>
 </div>
 <p>We find that the first principal component divides painting between those at the ocean (with beach and palm trees) and those in the tree covered mountains. The next component divides mountains from structures like cabin and barns, while the final one distinguishes a cabin in the snow from a grassy river.</p>
-</section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>

@@ -154,7 +154,7 @@ bob_ross %>%
 
 Most paintings have between 5 and 11 features, although one has more than 15 and a couple have none. 
 
-### Principal Component Analysis
+## Principal Component Analysis
 
 In short, principal component analysis is a dimensionality-reduction technique that takes all of your variables and creates a new set of characteristics that still contains the most information. For more information, I highly recommend checking out [this StackOverflow answer](https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues) for great explanations from simple to mathematical and Julia Silge's [post](https://juliasilge.com/blog/stack-overflow-pca/) where she explains principal component analysis using StackOverflow data.
 

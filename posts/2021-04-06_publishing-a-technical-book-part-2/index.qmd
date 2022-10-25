@@ -19,9 +19,9 @@ You’ve probably heard of some book publishers before like Simon and Schuster o
 
 Publishers have roles beyond just printing books. They will help you refine your idea, edit, and connect you with an audience. Getting a good publisher can turn your “I thought this was a cool thing to write about” into an beautifully formatted, honest-to-goodness book, available at a bookstore near you (well, maybe just the big ones). 
 
-### Finding a publisher
+## Finding a publisher
 
-##### Submitting a proposal
+### Submitting a proposal
 
 The first step to getting a publisher interested in your book idea is to submit a proposal. Anyone can download a copy of [O’Reilly](https://www.oreilly.com/work-with-us.html) and [Manning’s](https://www.manning.com/write-a-book) proposal forms and submit it to the email provided. I couldn’t find Pearson’s US link, but [here’s the UK one](https://www.pearson.com/uk/information-for-authors.html), which also includes some information on why they turn down proposals. I think it’s pretty rare to have an agent if you’re looking to go with a technical book publisher. But if you’re someone who did, let me know! As mentioned above, in our case Manning reached out to Jacqueline, but we still went through the regular process proposal process. 
 
@@ -36,7 +36,7 @@ Proposals sell a publisher on why they should publish a book and why you are the
   
 A good proposal shows how this book would clearly add value by covering an in-demand topic where good resources don’t exist already. So trying to publish a general book on “deep learning in Python” would be a tough sell - just look on Amazon to find dozens of books already covering the subject, some written by the authors of the main deep learning packages.You also need to convince them that you’re the best person to write about it - showing how you’ve taught a course on the subject, done it for years at your job, or even written blog posts and given talks about it all provide evidence that you would write a good book. 
 
-##### Self-publishing
+### Self-publishing
 
 Self-publishing has a couple of advantages. First, you keep a lot more money from each sale. For example, if you make an e-book and sell through a platform like gumroad, you keep around 90% of the proceeds. Second, there’s no gatekeeper - you don’t need a publisher to accept your proposal. Finally, you have full control over the book. While we never had an issue with Manning asking us to include or take out something we didn’t want to, I’m sure it does sometimes happen. You can also set the price of your book, perhaps even letting people decide their own price if you want to make it more accessible. 
 
