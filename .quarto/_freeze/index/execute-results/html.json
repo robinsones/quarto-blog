@@ -1,5 +1,5 @@
 {
-  "hash": "ffe4a31a419505709e7793fff52b8f75",
+  "hash": "4aa7bc62203bc79cbedaaf392630c79c",
   "result": {
     "markdown": "---\ntitle: \"Hooked on Data\"\nsubtitle: \"A data science blog by Emily Robinson\"\nlisting:\n  contents: posts\n  sort: \"date desc\"\n  type: default\n  categories: true\n  sort-ui: false\n  filter-ui: false\npage-layout: full\ntitle-block-banner: true\n---\n\n::: {.cell}\n\n:::\n",
     "supporting": [],

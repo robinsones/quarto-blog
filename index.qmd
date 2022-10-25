@@ -26,9 +26,15 @@ slugs <- gsub("^.*_", "", posts)
 # lines to insert to a netlify _redirect file
 redirects <- paste0("/", slugs, " ", "/posts/", posts)
 
+# manually fix the few I changed
+redirects[24] <- "/publishing-tech-book-part-4 /posts/2021-04-06_publishing-a-technical-book-part-4"
+redirects[23] <- "/publishing-tech-book-part-3 /posts/2021-04-06_publishing-a-technical-book-part-3"
+redirects[22] <- "/publishing-tech-book-part-2 /posts/2021-04-06_publishing-a-technical-book-part-2"
+redirects[21] <- "/publishing-tech-book-part-1 /posts/2021-04-06_publishing-a-technical-book-part-1"
+redirects[20] <- "/pokemon-type-combinations /posts/2019-08-08_pokemon-matrices-and-combinations-oh-my"
+redirects[19] <- "/exploring-bob-ross-paintings /posts/2019-08-05_clustering-bob-ross-paintings"
+redirects[17] <- "/going-off-the-map /posts/2019-01-09_going-off-the-map-exploring-purrrs-other-functions"
+
 # write the _redirect file
 writeLines(redirects, here::here("_site", "_redirects"))
 ```
-
-
-

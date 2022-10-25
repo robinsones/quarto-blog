@@ -6,3 +6,4 @@
 *.rds
 *.csv
 *.icloud
+/.quarto/
