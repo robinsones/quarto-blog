@@ -4,10 +4,13 @@ subtitle: "A data science blog by Emily Robinson"
 listing:
   contents: posts
   sort: "date desc"
-  type: default
+  type: grid
+  grid-columns: 3
+  image-height: 250px
+  page-size: 100
   categories: true
   sort-ui: false
-  filter-ui: false
+  filter-ui: false 
 page-layout: full
 title-block-banner: true
 ---

@@ -1,7 +1,7 @@
 {
-  "hash": "4aa7bc62203bc79cbedaaf392630c79c",
+  "hash": "1e1bf601c7494d6bb045a12c153c4b04",
   "result": {
-    "markdown": "---\ntitle: \"Hooked on Data\"\nsubtitle: \"A data science blog by Emily Robinson\"\nlisting:\n  contents: posts\n  sort: \"date desc\"\n  type: default\n  categories: true\n  sort-ui: false\n  filter-ui: false\npage-layout: full\ntitle-block-banner: true\n---\n\n::: {.cell}\n\n:::\n",
+    "markdown": "---\ntitle: \"Hooked on Data\"\nsubtitle: \"A data science blog by Emily Robinson\"\nlisting:\n  contents: posts\n  sort: \"date desc\"\n  type: grid\n  grid-columns: 3\n  image-height: 250px\n  page-size: 100\n  categories: true\n  sort-ui: false\n  filter-ui: false \npage-layout: full\ntitle-block-banner: true\n---\n\n::: {.cell}\n\n:::\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
