@@ -1,6 +1,5 @@
 ---
 title: Giving Your First Data Science Talk
-author: Emily Robinson
 date: '2017-08-14'
 slug: giving-your-first-data-science-talk
 categories: [Career]
