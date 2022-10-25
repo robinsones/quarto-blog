@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2017-11-30">
+<meta name="description" content="How I sped up my R code and went from it taking 3 minutes to run one iteration to taking less than a second to run 10,000.">
+
+<title>Hooked on Data - Making R Code Faster: A Case Study</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Making R Code Faster: A Case Study</h1>
+                  <div>
+        <div class="description">
+          How I sped up my R code and went from it taking 3 minutes to run one iteration to taking less than a second to run 10,000.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Code</div>
+                <div class="quarto-category">R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 30, 2017</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The problem</a></li>
+  <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link" data-scroll-target="#asking-for-help">Asking for help</a></li>
+  <li><a href="#lessons-learned-on-performance" id="toc-lessons-learned-on-performance" class="nav-link" data-scroll-target="#lessons-learned-on-performance">Lessons learned on performance</a>
+  <ul class="collapse">
+  <li><a href="#you-may-not-need-big-data-tools" id="toc-you-may-not-need-big-data-tools" class="nav-link" data-scroll-target="#you-may-not-need-big-data-tools">You may not need big data tools</a></li>
+  <li><a href="#try-to-do-everything-grouping-and-counting-you-can-in-sql-and-eliminate-unnecessary-information" id="toc-try-to-do-everything-grouping-and-counting-you-can-in-sql-and-eliminate-unnecessary-information" class="nav-link" data-scroll-target="#try-to-do-everything-grouping-and-counting-you-can-in-sql-and-eliminate-unnecessary-information">Try to do everything (grouping and counting) you can in SQL and eliminate unnecessary information</a></li>
+  <li><a href="#eliminate-redundancy" id="toc-eliminate-redundancy" class="nav-link" data-scroll-target="#eliminate-redundancy">Eliminate redundancy</a></li>
+  <li><a href="#vectorize" id="toc-vectorize" class="nav-link" data-scroll-target="#vectorize">Vectorize</a></li>
+  <li><a href="#use-matrix-operations" id="toc-use-matrix-operations" class="nav-link" data-scroll-target="#use-matrix-operations">Use matrix operations</a></li>
+  <li><a href="#final-tally" id="toc-final-tally" class="nav-link" data-scroll-target="#final-tally">Final Tally</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>About two months ago I put a call out to Rstats twitter:</p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+</p><p><a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> twitter - who loves helping to make (short) code run as fast as possible? Playing w/ foreach, doparallel, data.table but know little</p>
+<p></p>
+<p>— Emily Robinson (<span class="citation" data-cites="robinson_es">@robinson_es</span>) <a href="https://twitter.com/robinson_es/status/915632978524540928?ref_src=twsrc%5Etfw">October 4, 2017</a></p>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>I had a working, short script that took 3 1/2 minutes to run. While this may be fine if you only need to run it once, I needed to run it hundreds of time for simulations. My first attempt to do so ended about four hours after I started the code, with 400 simulations left to go, and I knew I needed to get some help.</p>
+<p>This post documents the iterative process of improving the performance of the function, culminating in a runtime of <strong>.64 seconds for 10,000 iterations, a speed-up of more than 100,000x</strong>.</p>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
+<p>At Etsy I work a lot on our A/B Testing system. When assigning browsers randomly to experimental groups, we do so based on their browser id (cookie) or device id for apps. But when we analyze our data, we can use two different methods: visit level (chunks of behavior) and browser level. For more details, see my talk on <a href="https://www.youtube.com/watch?v=SF-ryGgLOgQ&amp;feature=youtu.be">A/B Testing</a> (starting at 17:30).</p>
+<p>While we offer both, we analysts encourage everyone to favor browser metrics over visit metrics. One reason is that visits can come from the same browser or person, violating the independence assumption of the statistical tests we use. In theory, this should inflate our false positive rate, but we’d never actually tested this with our own browsers, and a theoretical concept was not always convincing to our partner teams.</p>
+<p>I therefore set out to simulate hundreds of null A/B Tests using our own data. I wanted to see if the percentage with p &lt; .05, our false positive rate, was actually around 5%, or if it was inflated, as we expected.</p>
+</section>
+<section id="asking-for-help" class="level2">
+<h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
+<p>I am very fortunate to have a data scientist brother who will jump in to help out even when not directly asked. A lot of the code improvements following come from him.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../img/Dave_optimization_tweet.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">center</figcaption><p></p>
+</figure>
+</div>
+<p>I’ve also gotten to know many other people in the R community through RLadies, conferences, and twitter, some of whom offered help as well. But even if you’re new to R and don’t know anyone, there are people who will jump in and help you too. RStudio recently launched a new <a href="https://community.rstudio.com/">community website</a> where you can ask quesitons ranging from a specific issue that you need to debug to <a href="https://community.rstudio.com/t/convince-me-to-start-using-r-markdown/1636">why you should use RMarkdown</a>. There’s also a <a href="https://medium.com/@kierisi/join-the-r-for-data-science-online-learning-community-842527222ab3">slack community</a>, organized by <a href="https://twitter.com/kierisi">Jesse Maegan</a>, that brings people wanting to learn R together with mentors to work through Garrett Grolemund and Hadley Wickham’s <a href="http://r4ds.had.co.nz/">R for Data Science</a> book. Jesse has been writing a great series of blog posts reflecting on some <a href="https://medium.com/@kierisi/latest">lessons from each week</a>, and she’ll also be doing another round.</p>
+<p>Part of why I wrote this post is I believe those who are privileged–whether by having a data science job, getting to go to conferences, or having a formal education in programming or statistics–should try to share that through public work. I hope some of the lessons learned can help others optimize their code performance when needed. The first three are helpful for any language and the final two for R especially.</p>
+</section>
+<section id="lessons-learned-on-performance" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned-on-performance">Lessons learned on performance</h2>
+<section id="you-may-not-need-big-data-tools" class="level3">
+<h3 class="anchored" data-anchor-id="you-may-not-need-big-data-tools">You may not need big data tools</h3>
+<p>In my tweet, I mentioned some packages I’d been trying, including foreach and doparallel, packages for parallel processing. Some folks replying also suggested sparklyr (which integrates spark and R) and Rcpp (which integrates R and C++). I thought I needed to use these because I was dealing with big data (for R) - 10+ million rows with some text columns!</p>
+<p>But even if the data you start with is large, you may be able to make it smaller by eliminating extra columns or summarizing the data. In the next section, you’ll see how I compressed my data into 3 numeric columns and fewer than a thousand rows.</p>
+</section>
+<section id="try-to-do-everything-grouping-and-counting-you-can-in-sql-and-eliminate-unnecessary-information" class="level3">
+<h3 class="anchored" data-anchor-id="try-to-do-everything-grouping-and-counting-you-can-in-sql-and-eliminate-unnecessary-information">Try to do everything (grouping and counting) you can in SQL and eliminate unnecessary information</h3>
+<p>If you want to follow along, please run this R code to simulate a dataset (this is smaller than my dataset, so if you time the later code your times will not match mine):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>initial_bis <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%s%s%s"</span>, stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">800000</span>, <span class="dv">5</span>, <span class="st">'[A-Z]'</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>      stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">800000</span>, <span class="dv">4</span>, <span class="st">'[0-9]'</span>), </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">800000</span>, <span class="dv">1</span>, <span class="st">'[A-Z]'</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bi <span class="ot">&lt;-</span> <span class="fu">sample</span>(initial_bis, <span class="at">size =</span> <span class="dv">1000000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000000</span>, <span class="dv">1</span>, <span class="fl">0.2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>vi <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%s%s%s"</span>, stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">1000000</span>, <span class="dv">5</span>, <span class="st">'[A-Z]'</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">1000000</span>, <span class="dv">4</span>, <span class="st">'[0-9]'</span>), </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      stringi<span class="sc">::</span><span class="fu">stri_rand_strings</span>(<span class="dv">1000000</span>, <span class="dv">1</span>, <span class="st">'[A-Z]'</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>bi_name <span class="ot">&lt;-</span> <span class="st">"browser_id"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>c_name <span class="ot">&lt;-</span> <span class="st">"converted"</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>vi_name <span class="ot">&lt;-</span> <span class="st">"visit_id"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>search_visits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(bi, c, vi)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(search_visits) <span class="ot">&lt;-</span> <span class="fu">c</span>(bi_name, c_name, vi_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here was my original code that:</p>
+<ul>
+<li>Pulled a table down from SQL that had all the visits that had a search in the previous X days, including whether they converted or not, and their browser id.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> erobinson.simulate_fp_search</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Randomly assigned on the <strong>browser level</strong> a label of 0 or 1.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(<span class="fu">distinct</span>(search_visits, browser_id))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>browsers <span class="ot">&lt;-</span> search_visits <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(browser_id) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ab_variant =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), N, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>browsers <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(browsers)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>browsers <span class="ot">&lt;-</span> <span class="fu">setkey</span>(browsers, browser_id)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>dat_w_labels <span class="ot">&lt;-</span> <span class="fu">merge</span>(search_visits, browsers, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dat_w_labels <span class="ot">&lt;-</span> dat_w_labels[, .(.N), by <span class="ot">=</span> .(ab_variant, converted)] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ab_variant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Counted up the number of total visits and converting visits for each label.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>failures <span class="ot">&lt;-</span> dat_w_labels <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(converted <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(N)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>successes <span class="ot">&lt;-</span>  dat_w_labels <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(converted <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Ran a prop test comparing the two groups.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">prop.test</span>(successes, failures <span class="sc">+</span> successes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The table I started with was over 10 million rows, and I was doing many operations:</p>
+<ol type="1">
+<li>Getting the number of distinct browser ids</li>
+<li>Making a new table that had every browser id and their label</li>
+<li>Merging the new table with the original search visits table</li>
+<li>Grouping that new table by whether the visit converted or not and its label, counting the number of each type</li>
+<li>Extracting the number of conversions and non-conversions</li>
+<li>Doing a prop test</li>
+</ol>
+<p>The last three steps are fast, but the first three are very long. This isn’t even including the initial 5 minutes (!) it takes to load the sql table in the first place. We’re able to refactor and make it faster by realizing a few things:</p>
+<ol type="1">
+<li>We don’t need the big text columns visit id and browser id</li>
+<li>In SQL, we can group by browser id so each row has 1) the number of visits for a browser and 2) the number of visits that converted for that browser. With that, we’ll have a smaller table of only two numeric columns.</li>
+<li>We can then label each row with 0 or 1 randomly, assigning treatment on the browser level.</li>
+<li>Next, we sum up the total visits column and the converted column, grouping by label.</li>
+<li>Finally, we run a prop.test</li>
+</ol>
+<p>Here’s what the sql new code looks like:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">as</span> total_visits, <span class="fu">sum</span>(converted) <span class="kw">as</span> converted </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> erobinson.simulate_fp_search</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> browser_id </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Again, to follow along, here’s that sql code in R:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>search_visits <span class="ot">&lt;-</span> search_visits <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(browser_id) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_visits =</span> <span class="fu">n</span>(), <span class="at">converted =</span> <span class="fu">sum</span>(converted)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(total_visits, converted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I then created my simulation function and ran it 1000 times.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>simulate_p_value_visits <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> search_visits <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># group_by here is really a mutate and group_by</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(<span class="at">label =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">n</span>(), <span class="at">replace =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">total_visits =</span> <span class="fu">sum</span>(total_visits), <span class="at">converted =</span> <span class="fu">sum</span>(converted)) </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.test</span>(results<span class="sc">$</span>converted, results<span class="sc">$</span>total_visits)<span class="sc">$</span>p.value</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>simulate_p_values_visit_result <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">simulate_p_value_visits</span>())</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="ot">&lt;-</span> <span class="fu">sum</span>(simulate_p_values_visit_result <span class="sc">&lt;</span> .<span class="dv">05</span>)<span class="sc">/</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(simulate_p_values_visit_result)<span class="sc">*</span><span class="dv">100</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>While switching the dplyr to data.table could probably speed it up even more, right now we’re down to about 14 minutes runtime for a 1000 iterations.</p>
+</section>
+<section id="eliminate-redundancy" class="level3">
+<h3 class="anchored" data-anchor-id="eliminate-redundancy">Eliminate redundancy</h3>
+<p>But we can then recognize that our table currently has a lot of redudancy: we have many browsers that have 1 visit and 0 conversions, 2 visits and 0 conversions, etc.</p>
+<p>Therefore, we can make our code faster by: - Transforming our table so each row is a unique combination of visits &amp; conversions, with a column that is the number of browsers with that combination. We can do this in SQL and output the table as “count of counts”.</p>
+<p><img src="../../img/performance_post_visualization.png" class="img-fluid"></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">with</span> counts <span class="kw">as</span> (</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">as</span> total_visits, <span class="fu">sum</span>(converted) <span class="kw">as</span> converted </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> erobinson.simulate_fp_search</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> browser_id</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">as</span> n, total_visits, converted</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> counts</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> total_visits, converted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To follow along, run the R code to create <code>count_of_counts</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>count_of_counts <span class="ot">&lt;-</span> search_visits <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(total_visits, converted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Using the binomial distribution to simulate splitting browsers into A and B groups.</li>
+</ul>
+<p>Because the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">bernoulli distribution</a> is just a special case of the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a> where n = 1, we’re doing the <em>same</em> process as before, but we do many fewer computations!</p>
+<ul>
+<li>As before, summarizing the number of visits and conversions in each group and apply our proportion test.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>simulate_p_value <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> &nbsp;<span class="co"># put about half (with binomial sampling) in each group</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> count_of_counts <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">A =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n, .<span class="dv">5</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">B =</span> n <span class="sc">-</span> A) <span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">total_A =</span> <span class="fu">sum</span>(total_visits <span class="sc">*</span> A),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">total_B =</span> <span class="fu">sum</span>(total_visits <span class="sc">*</span> B),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">converted_A =</span> <span class="fu">sum</span>(converted <span class="sc">*</span> A),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">converted_B =</span> <span class="fu">sum</span>(converted <span class="sc">*</span> B))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.test</span>(<span class="fu">c</span>(result<span class="sc">$</span>converted_A, result<span class="sc">$</span>converted_B), </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(result<span class="sc">$</span>total_A, result<span class="sc">$</span>total_B))<span class="sc">$</span>p.value</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>sim_pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">simulate_p_value</span>())</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="ot">&lt;-</span> <span class="fu">sum</span>(sim_pvals <span class="sc">&lt;</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="fu">length</span>(sim_pvals)<span class="sc">*</span><span class="dv">100</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="vectorize" class="level3">
+<h3 class="anchored" data-anchor-id="vectorize">Vectorize</h3>
+<p>While the previous code is pretty fast, we can get it even faster by vectorizing the prop test. If you’re not familiar with vectorization in R and why it’s faster, check out Noam Ross’s <a href="http://www.noamross.net/blog/2014/4/16/vectorization-in-r--why.html">excellent blog post</a>.</p>
+<p>Here is the new code using a vectorized proportion test (courtsey of David Robinson’s <a href="https://github.com/dgrtwo/splittestr">splittestr package</a>).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"dgrtwo/splittestr"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(splittestr)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>simulated_pvals <span class="ot">&lt;-</span> count_of_counts <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">trial =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">A =</span> <span class="fu">rbinom</span>(<span class="fu">n</span>(), n, .<span class="dv">5</span>), <span class="at">B =</span> n <span class="sc">-</span> A) <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trial) <span class="sc">%&gt;%</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_A =</span> <span class="fu">sum</span>(total_visits <span class="sc">*</span> A),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">total_B =</span> <span class="fu">sum</span>(total_visits <span class="sc">*</span> B),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">converted_A =</span> <span class="fu">sum</span>(converted <span class="sc">*</span> A),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">converted_B =</span> <span class="fu">sum</span>(converted <span class="sc">*</span> B)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pvalue =</span> <span class="fu">vectorized_prop_test</span>(converted_A, total_A <span class="sc">-</span> converted_A, </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  converted_B, total_B <span class="sc">-</span> converted_B)<span class="sc">$</span>p.value)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="ot">&lt;-</span> <span class="fu">sum</span>(simulated_pvals<span class="sc">$</span>pvalue <span class="sc">&lt;</span> .<span class="dv">05</span>)<span class="sc">/</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(simulated_pvals<span class="sc">$</span>pvalue)<span class="sc">*</span><span class="dv">100</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Crossing is the tidyr version of mutate: it creates a tibble from all the combinations of the supplied vectors. In this case, that means we’ll have a 1000x the number of rows in “count of counts.” For each trial, we’ll simulate putting half of the browsers in A and half in B. Then we can get the total number of visits and converted visits for each trial and use our vectorized prop test to create a new variable that is the p-value.</p>
+</section>
+<section id="use-matrix-operations" class="level3">
+<h3 class="anchored" data-anchor-id="use-matrix-operations">Use matrix operations</h3>
+<p>But wait, there’s more! The issue with the previous version is memory: we’re creating that intermediate product that has hundreds of thousands of rows. Instead, we can use matrix operations, which are faster and less memory-taxing than R. We don’t get to use tidyverse code, but sometimes sacrifices must be made.</p>
+<p>Here, we first create two matrixes, A and B. Each column represents one simulation, and each row a unique combination of visits and conversion (e.g.&nbsp;one row is for browsers with 1 visit and 0 conversions, another for 2 visits and 1 conversion, etc). We’ve used the binomial distribution again to simulate splitting n, the number of browsers with a certain combination of visits and conversions, into A and B.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">rbinom</span>(<span class="fu">nrow</span>(count_of_counts), count_of_counts<span class="sc">$</span>n, .<span class="dv">5</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> count_of_counts<span class="sc">$</span>n <span class="sc">-</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We create four vectors of length 1000, one entry for each simulation. Two are for the total number of visits in A or B and two are for the the number of converted visits in A or B. For example, if the first entry in A and B represents the number of browsers with 5 visits and 1 conversions in A and B, respectively, we just multiply each of those by 5 to get the number of visits and by 1 to get the number of conversions. So if it was 2 in A and 3 in B, that means A had 10 visits and 2 conversion while B had 15 visits and 3 conversions. We do this for every row and then add up the column to get the total number of visits and total number of conversions for that simulation in A and in B. This operation is repeated for all 1000 columns (simulations).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>total_A <span class="ot">&lt;-</span> <span class="fu">colSums</span>(A <span class="sc">*</span> count_of_counts<span class="sc">$</span>total)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>total_B <span class="ot">&lt;-</span> <span class="fu">colSums</span>(B <span class="sc">*</span> count_of_counts<span class="sc">$</span>total)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>converted_A <span class="ot">&lt;-</span> <span class="fu">colSums</span>(A <span class="sc">*</span> count_of_counts<span class="sc">$</span>converted)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>converted_B <span class="ot">&lt;-</span> <span class="fu">colSums</span>(B <span class="sc">*</span> count_of_counts<span class="sc">$</span>converted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Our last step is to use the vectorized prop test to get a 1000 p-values and then calculate what percentage of them are less than .05.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"dgrtwo/splittestr"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(splittestr)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pvals <span class="ot">&lt;-</span> <span class="fu">vectorized_prop_test</span>(converted_A, total_A <span class="sc">-</span> converted_A,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                              converted_B, total_B <span class="sc">-</span> converted_B)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                              </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>false_positive_rate <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="fu">length</span>(pvals)<span class="sc">*</span><span class="dv">100</span>                         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="final-tally" class="level3">
+<h3 class="anchored" data-anchor-id="final-tally">Final Tally</h3>
+<p>Here’s the final comparison of performance (calculated using the great <a href="http://collectivemedia.github.io/tictoc/">tictoc package</a>):</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Attempt</th>
+<th>SQL table runtime</th>
+<th>1 iteration runtime</th>
+<th>1000 iterations runtime</th>
+<th>10000 iterations runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original</td>
+<td>5+ minutes</td>
+<td>215 seconds</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Second Version</td>
+<td>23 seconds</td>
+<td>.5 seconds</td>
+<td>839 seconds</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Summarized Version</td>
+<td>.7 seconds</td>
+<td>.03 seconds</td>
+<td>9.2 seconds</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Vectorized Version</td>
+<td>.7 seconds</td>
+<td></td>
+<td>.39 seconds</td>
+<td>7.9 seconds</td>
+</tr>
+<tr class="odd">
+<td>Matrix Version</td>
+<td>.7 seconds</td>
+<td></td>
+<td>.11 seconds</td>
+<td>.64 seconds</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+</p><p>One rule of thumb for maximizing <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> performance is that the way you’d do something once is rarely the best way to do it 1000X</p>
+<p></p>
+<p>— David Robinson (<span class="citation" data-cites="drob">@drob</span>) <a href="https://twitter.com/drob/status/915987148515377152?ref_src=twsrc%5Etfw">October 5, 2017</a></p>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>At RStudio::Conf 2017, Hadley Wickham <a href="https://hookedondata.org/RStudio-Conference-Tips-and-Tricks/">discussed</a> how the bottleneck in writing code is usually thinking speed, not computational speed. Therefore, he advised that you shouldn’t prematurely worry about optimizing for performance but rather about making sure your code is clear. In this case, though, the point was to run the same code hundreds of times, so I needed to start worrying about performance. Through the process, I learned a lot about how R works “under the hood” and how to conceptualize problems a different way.</p>
+<p>Next time, I’ll be returning soon to the topic of A/B Testing, sharing what I’ve learned from reading industry papers.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

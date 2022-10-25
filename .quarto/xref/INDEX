@@ -1,0 +1,167 @@
+{
+  "posts/post-with-code/index.qmd": {
+    "index.html": "c5ec1d67"
+  },
+  "posts/2016-07-05-from-social-scientist-to-data-scientist/index.qmd": {
+    "index.html": "c82605f0"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "4de038db"
+  },
+  "index.qmd": {
+    "index.html": "235bb815"
+  },
+  "about.qmd": {
+    "about.html": "2533ea12"
+  },
+  "posts/2016-08-08-better-plotting-in-python-with-seaborn/index.qmd": {
+    "index.html": "c319a558"
+  },
+  "posts/2016-07-26-creating-my-first-r-package-part-1/index.qmd": {
+    "index.html": "fa7c0150"
+  },
+  "posts/2017-08-14-giving-your-first-data-science-talk/index.qmd": {
+    "index.html": "c90c39d6"
+  },
+  "posts/2017-01-19-rstudio-conference-recap/index.qmd": {
+    "index.html": "1747972a"
+  },
+  "posts/2017-01-19-rstudio-conference-tips-and-tricks/index.qmd": {
+    "index.html": "5370ab5a"
+  },
+  "posts/2016-09-30-topic-modeling-the-new-york-times-and-trump/index.qmd": {
+    "index.html": "c7380935"
+  },
+  "posts/2017-11-30-making-r-code-faster-a-case-study/index.qmd": {
+    "index.html": "e760b8f2"
+  },
+  "posts/2017-09-28-managing-business-challenges-in-data-science/index.qmd": {
+    "index.html": "a9c809f2"
+  },
+  "posts/2018-01-10-building-your-data-science-network-finding-community/index.qmd": {
+    "index.html": "fe900c3e"
+  },
+  "posts/2018-05-29-advice-for-applying-to-data-science-jobs/index.qmd": {
+    "index.html": "57ab606f"
+  },
+  "posts/2018-02-14-the-importance-of-sponsorship/index.qmd": {
+    "index.html": "b06b9ebd"
+  },
+  "posts/2018-01-10-building-your-data-science-network-reaching-out/index.qmd": {
+    "index.html": "d480603d"
+  },
+  "posts/2018-07-03-red-flags-in-data-science-interviews/index.qmd": {
+    "index.html": "4c028025"
+  },
+  "posts/2021-04-06-publishing-a-technical-book-part-2/index.qmd": {
+    "index.html": "f19837c9"
+  },
+  "posts/2018-11-16-the-lesser-known-stars-of-the-tidyverse/index.qmd": {
+    "index.html": "3657c5b2"
+  },
+  "posts/2021-04-06-publishing-a-technical-book-part-4/index.qmd": {
+    "index.html": "72f6cc03"
+  },
+  "posts/2021-04-06-publishing-a-technical-book-part-3/index.qmd": {
+    "index.html": "a6280a7c"
+  },
+  "posts/2019-07-25-introducing-the-funneljoin-package/index.qmd": {
+    "index.html": "e81dbf4b"
+  },
+  "posts/2019-08-08-pokemon-matrices-and-combinations-oh-my/index.qmd": {
+    "index.html": "47ae975b"
+  },
+  "posts/2021-06-22-career-resources/index.qmd": {
+    "index.html": "853cc0d5"
+  },
+  "posts/2021-04-06-publishing-a-technical-book-part-1/index.qmd": {
+    "index.html": "5470d4c2"
+  },
+  "posts/2018-08-07-guidelines-for-a-b-testing/index.qmd": {
+    "index.html": "a61da39c"
+  },
+  "posts/2019-01-09-going-off-the-map-exploring-purrrs-other-functions/index.qmd": {
+    "index.html": "65d19cdb"
+  },
+  "posts/2019-08-05-clustering-bob-ross-paintings/index.qmd": {
+    "index.html": "ba2613fd"
+  },
+  "speaking.qmd": {
+    "speaking.html": "204054e5"
+  },
+  "posts/2019-08-05_clustering-bob-ross-paintings/index.qmd": {
+    "index.html": "45d61972"
+  },
+  "posts/2018-11-16_the-lesser-known-stars-of-the-tidyverse/index.qmd": {
+    "index.html": "9898a0de"
+  },
+  "posts/2021-04-06_publishing-a-technical-book-part-1/index.qmd": {
+    "index.html": "9fa25cd6"
+  },
+  "posts/2018-08-07_guidelines-for-a-b-testing/index.qmd": {
+    "index.html": "a53d7d30"
+  },
+  "posts/2017-09-28_managing-business-challenges-in-data-science/index.qmd": {
+    "index.html": "ee2ff2c4"
+  },
+  "posts/2018-02-14_the-importance-of-sponsorship/index.qmd": {
+    "index.html": "d53c8537"
+  },
+  "posts/2017-01-19_rstudio-conference-recap/index.qmd": {
+    "index.html": "4ca56fe2"
+  },
+  "posts/2016-07-05_from-social-scientist-to-data-scientist/index.qmd": {
+    "index.html": "36bef4fc"
+  },
+  "posts/2019-08-08_pokemon-matrices-and-combinations-oh-my/index.qmd": {
+    "index.html": "c8e3d30a"
+  },
+  "posts/2017-08-14_giving-your-first-data-science-talk/index.qmd": {
+    "index.html": "624a271e"
+  },
+  "posts/2016-07-26_creating-my-first-r-package-part-1/index.qmd": {
+    "index.html": "07aced94"
+  },
+  "posts/2018-07-03_red-flags-in-data-science-interviews/index.qmd": {
+    "index.html": "aa4c1735"
+  },
+  "posts/2016-08-08_better-plotting-in-python-with-seaborn/index.qmd": {
+    "index.html": "7a2e67e5"
+  },
+  "posts/2021-04-06_publishing-a-technical-book-part-4/index.qmd": {
+    "index.html": "9772f41a"
+  },
+  "posts/2021-04-06_publishing-a-technical-book-part-3/index.qmd": {
+    "index.html": "0ea0559e"
+  },
+  "posts/2021-04-06_publishing-a-technical-book-part-2/index.qmd": {
+    "index.html": "aac78d58"
+  },
+  "posts/2018-01-10_building-your-data-science-network-finding-community/index.qmd": {
+    "index.html": "0deaf86e"
+  },
+  "posts/2021-06-22_career-resources/index.qmd": {
+    "index.html": "ab8e4ced"
+  },
+  "posts/2019-07-25_introducing-the-funneljoin-package/index.qmd": {
+    "index.html": "91b5015e"
+  },
+  "posts/2017-11-30_making-r-code-faster-a-case-study/index.qmd": {
+    "index.html": "89cd358e"
+  },
+  "posts/2018-05-29_advice-for-applying-to-data-science-jobs/index.qmd": {
+    "index.html": "497d46b4"
+  },
+  "posts/2016-09-30_topic-modeling-the-new-york-times-and-trump/index.qmd": {
+    "index.html": "36c0775d"
+  },
+  "posts/2018-01-10_building-your-data-science-network-reaching-out/index.qmd": {
+    "index.html": "f743634d"
+  },
+  "posts/2019-01-09_going-off-the-map-exploring-purrrs-other-functions/index.qmd": {
+    "index.html": "3675ee1c"
+  },
+  "posts/2017-01-19_rstudio-conference-tips-and-tricks/index.qmd": {
+    "index.html": "e12503de"
+  }
+}

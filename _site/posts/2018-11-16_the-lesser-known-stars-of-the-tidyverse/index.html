@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2018-11-16">
+<meta name="description" content="Using exploratory data analysis to shine a light on other tidyverse functions and packages you may not know.">
+
+<title>Hooked on Data - The Lesser Known Stars of the Tidyverse</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Lesser Known Stars of the Tidyverse</h1>
+                  <div>
+        <div class="description">
+          Using exploratory data analysis to shine a light on other tidyverse functions and packages you may not know.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 16, 2018</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#reading-in-the-data" id="toc-reading-in-the-data" class="nav-link active" data-scroll-target="#reading-in-the-data">Reading in the data</a></li>
+  <li><a href="#initial-examination" id="toc-initial-examination" class="nav-link" data-scroll-target="#initial-examination">Initial examination</a>
+  <ul class="collapse">
+  <li><a href="#graphing-frequency-of-different-work-challenges" id="toc-graphing-frequency-of-different-work-challenges" class="nav-link" data-scroll-target="#graphing-frequency-of-different-work-challenges">Graphing Frequency of Different Work Challenges</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>In early 2018, I gave a few conference talks on “The Lesser Known Stars of the Tidyverse.” I focused on some packages and functions that aren’t as well known as the core parts of ggplot2 and dplyr but are very helpful in exploratory analysis. I walked through an example analysis of <a href="https://www.kaggle.com/kaggle/kaggle-survey-2017">Kaggle’s 2017 State of Data Science and Machine Learning Survey</a> to show how I would use these functions in an exploratory analysis.</p>
+<p>This post shares that analysis with some extra written commentary. If you’d like to watch the talks as well, both the <a href="https://www.rstudio.com/resources/videos/the-lesser-known-stars-of-the-tidyverse/">RStudio::conf</a> and <a href="https://www.youtube.com/watch?v=ax4LXQ5t38k">New York R conference</a> ones were recorded.</p>
+<section id="reading-in-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="reading-in-the-data">Reading in the data</h2>
+<p>First, we’ll try reading in our dataset with base R’s <code>read.csv</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"multipleChoiceResponses.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s say we wanted to know the numbers of NAs in each column. We can use <code>is.na</code> to change each entry in a column to TRUE or FALSE, depending on whether it’s NA, and then sum the column (because <code>TRUE</code> evaluates as 1 and <code>FALSE</code> as 0) to get the total number of NAs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one column</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(multiple_choice_responses_base<span class="sc">$</span>Country))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>To do this for a group of columns, say the first five, we can use <code>summarise_at</code> function. <code>summarise_at</code> takes three arguments: the dataset, which we pipe in, the set of columns we want to apply a function to, and a function to apply to each of the columns. It returns a dataframe with the same column names and one row with the result of our function. In our case, that will be the number of NAs in each column.</p>
+<p>You can select the columns by position, as we’ll do here with <code>1:5</code>, or by name. Note that if you do it by name, you need to put them within <code>vars()</code> (e.g.&nbsp;<code>vars(GenderSelect:StudentStatus)</code> or <code>vars(GenderSelect, Age)</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for five columns</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  GenderSelect Country Age EmploymentStatus StudentStatus
+1            0       0 331                0             0</code></pre>
+</div>
+</div>
+<p>Wow that’s lucky! Four of them that don’t have any NAs. But … is this too good to be true? Let’s look at the entries of one column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(StudentStatus) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  StudentStatus     n
+1               15436
+2            No   299
+3           Yes   981</code></pre>
+</div>
+</div>
+<p>Yep. We see here we have a lot of <code>""</code> entries instead of NAs. We can correct this with <code>na_if</code> from <code>dplyr</code>, which takes as an argument what we want to turn into NAs. We can also use <code>%&lt;&gt;%</code>, which is a reassignment pipe. While this is nice to save some typing, it can make it confusing when reading a script, so use with caution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na_if</span>(<span class="st">""</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## is the same as: </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="ot">&lt;-</span> multiple_choice_responses_base <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na_if</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s count the NAs again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses_base <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  GenderSelect Country Age EmploymentStatus StudentStatus
+1           95     121 331                0         15436</code></pre>
+</div>
+</div>
+<p>And it’s fixed!</p>
+<p>How could we have avoided this all in the first place? By using <code>readr::read_csv</code> instead of <code>read.csv</code>.</p>
+<p>If you’re not familiar with <code>::</code>, it’s for explicitly setting what package you’re getting the function on the right from. This is helpful in three ways:</p>
+<ol type="1">
+<li>There can be name conflicts, where two packages have functions with the same name. Using <code>::</code> ensures you’re getting the function you want.</li>
+<li>if you only want to use one function from a package, you can use <code>::</code> to skip the library call. As long as you’ve installed the package, you don’t need to have loaded it to get the function.</li>
+<li>For teaching purposes, it’s nice to remind people where the function is coming from.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"multipleChoiceResponses.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, see `problems()` for details</code></pre>
+</div>
+</div>
+<p>It’s definitely faster, but it seems we have some errors. Let’s inspect them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">problems</span>(multiple_choice_responses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 65 × 5
+     row   col expected           actual           file 
+   &lt;int&gt; &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;
+ 1   297    84 1/0/T/F/TRUE/FALSE Rarely           ""   
+ 2   673    84 1/0/T/F/TRUE/FALSE Most of the time ""   
+ 3  1210   207 a number           -                ""   
+ 4  1317    99 1/0/T/F/TRUE/FALSE Rarely           ""   
+ 5  1595    99 1/0/T/F/TRUE/FALSE Often            ""   
+ 6  2444    99 1/0/T/F/TRUE/FALSE Most of the time ""   
+ 7  2467    99 1/0/T/F/TRUE/FALSE Most of the time ""   
+ 8  2623    99 1/0/T/F/TRUE/FALSE Often            ""   
+ 9  2631    99 1/0/T/F/TRUE/FALSE Sometimes        ""   
+10  2725    99 1/0/T/F/TRUE/FALSE Often            ""   
+# … with 55 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>We see each row and column where a problem occurs. What’s happening is that <code>read_csv</code> uses the first 1000 rows of a column to guess its type. But in some cases, it’s guessing the column is an integer, because the first 1000 rows are whole numbers, when actually it should be double, as some entries have decimal points. We can fix this by changing the number of rows <code>read_csv</code> uses to guess the column type (with the <code>guess_max</code> argument) to the number of rows in the data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"multipleChoiceResponses.csv"</span>, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">guess_max =</span> <span class="fu">nrow</span>(multiple_choice_responses))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Error-free!</p>
+</section>
+<section id="initial-examination" class="level2">
+<h2 class="anchored" data-anchor-id="initial-examination">Initial examination</h2>
+<p>Let’s see what we can glean from the column names themselves. I’ll only look at the first 20 since there are so many.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(multiple_choice_responses) <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "GenderSelect"                      "Country"                          
+ [3] "Age"                               "EmploymentStatus"                 
+ [5] "StudentStatus"                     "LearningDataScience"              
+ [7] "CodeWriter"                        "CareerSwitcher"                   
+ [9] "CurrentJobTitleSelect"             "TitleFit"                         
+[11] "CurrentEmployerType"               "MLToolNextYearSelect"             
+[13] "MLMethodNextYearSelect"            "LanguageRecommendationSelect"     
+[15] "PublicDatasetsSelect"              "LearningPlatformSelect"           
+[17] "LearningPlatformUsefulnessArxiv"   "LearningPlatformUsefulnessBlogs"  
+[19] "LearningPlatformUsefulnessCollege" "LearningPlatformUsefulnessCompany"</code></pre>
+</div>
+</div>
+<p>We can see that there were categories of questions, like “LearningPlatform,” with each platform having its own column.</p>
+<p>Now let’s take a look at our numeric columns with <a href="https://github.com/ropensci/skimr">skimr</a>. Skimr is a package from <a href="https://ropensci.org/">rOpenSci</a> that allows you to quickly view summaries of your data. We can use <code>select_if</code> to select only columns where a certain condition, in this case whether it’s a numeric column, is true.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  skimr<span class="sc">::</span><span class="fu">skim</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">Piped data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">16716</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">331</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">32.37</td>
+<td style="text-align: right;">10.47</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▁▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LearningCategorySelftTaught</td>
+<td style="text-align: right;">3607</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">33.37</td>
+<td style="text-align: right;">25.79</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▅▃▂▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LearningCategoryOnlineCourses</td>
+<td style="text-align: right;">3590</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">27.38</td>
+<td style="text-align: right;">26.86</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▃▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LearningCategoryWork</td>
+<td style="text-align: right;">3605</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">15.22</td>
+<td style="text-align: right;">19.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▂▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LearningCategoryUniversity</td>
+<td style="text-align: right;">3594</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">16.99</td>
+<td style="text-align: right;">23.68</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▂▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LearningCategoryKaggle</td>
+<td style="text-align: right;">3590</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">5.53</td>
+<td style="text-align: right;">11.07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LearningCategoryOther</td>
+<td style="text-align: right;">3622</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">1.80</td>
+<td style="text-align: right;">9.36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TimeGatheringData</td>
+<td style="text-align: right;">9186</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">36.14</td>
+<td style="text-align: right;">21.65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▇▆▂▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TimeModelBuilding</td>
+<td style="text-align: right;">9188</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">21.27</td>
+<td style="text-align: right;">16.17</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▃▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TimeProduction</td>
+<td style="text-align: right;">9199</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">10.81</td>
+<td style="text-align: right;">12.26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TimeVisualizing</td>
+<td style="text-align: right;">9187</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">13.87</td>
+<td style="text-align: right;">11.72</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TimeFindingInsights</td>
+<td style="text-align: right;">9193</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">13.09</td>
+<td style="text-align: right;">12.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">303</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TimeOtherSelect</td>
+<td style="text-align: right;">9203</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">2.40</td>
+<td style="text-align: right;">12.16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I love the histograms. We can quickly see from them that people self teach a lot and spend a good amount of time building models and gathering data, compared to visualizing data or working in production.</p>
+<p>Let’s see how many distinct answers we have for each question. We can use <code>n_distinct()</code>, a shorter and faster version of <code>length(unique())</code>. We’ll use <code>summarise_all</code>, which is the same as <code>summarise_at</code> except that you don’t select a group of columns and so it applies to every one in the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(n_distinct) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
+  Gender…¹ Country   Age Emplo…² Stude…³ Learn…⁴ CodeW…⁵ Caree…⁶ Curre…⁷ Title…⁸
+     &lt;int&gt;   &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
+1        5      53    85       7       3       4       3       3      17       4
+# … with abbreviated variable names ¹​GenderSelect, ²​EmploymentStatus,
+#   ³​StudentStatus, ⁴​LearningDataScience, ⁵​CodeWriter, ⁶​CareerSwitcher,
+#   ⁷​CurrentJobTitleSelect, ⁸​TitleFit</code></pre>
+</div>
+</div>
+<p>This data would be more helpful if it was tidy and had two columns, <code>question</code> and <code>num_distinct_answers</code>. We can use <code>tidyr::gather</code> to change our data from “wide” to “long” format and then <code>arrange</code> it so we can see the columns with the most distinct answers first. If you’ve used (or are still using!) reshape2, check out tidyr; reshape2 is retired and is only updated with changes necessary for it to remain on CRAN. While not exactly equivalent, <code>tidyr::spread</code> replaces <code>reshape2::dcast</code>, <code>tidyr::separate</code> <code>reshape2::colsplit</code>, and <code>tidyr::gather</code> <code>reshape2::melt</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(n_distinct) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">gather</span>(question, num_distinct_answers) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_distinct_answers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 228 × 2
+   question               num_distinct_answers
+   &lt;chr&gt;                                 &lt;int&gt;
+ 1 WorkMethodsSelect                      6191
+ 2 LearningPlatformSelect                 5363
+ 3 WorkToolsSelect                        5249
+ 4 WorkChallengesSelect                   4288
+ 5 WorkDatasetsChallenge                  2221
+ 6 PastJobTitlesSelect                    1856
+ 7 MLTechniquesSelect                     1802
+ 8 WorkDatasets                           1723
+ 9 WorkAlgorithmsSelect                   1421
+10 MLSkillsSelect                         1038
+# … with 218 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>Let’s take a look at the question with the most distinct answers, WorkMethodsSelect.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(WorkMethodsSelect, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,191 × 2
+   WorkMethodsSelect                           n
+   &lt;chr&gt;                                   &lt;int&gt;
+ 1 &lt;NA&gt;                                     8943
+ 2 Data Visualization                        144
+ 3 Other                                     144
+ 4 Logistic Regression                        66
+ 5 Time Series Analysis                       49
+ 6 Neural Networks                            45
+ 7 A/B Testing                                42
+ 8 Data Visualization,Time Series Analysis    37
+ 9 Text Analytics                             36
+10 Decision Trees                             29
+# … with 6,181 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>We can see this is a multiple select question, where if a person selected multiple answers they’re listed as one entry, separated by commas. Let’s tidy it up.</p>
+<p>First, let’s get rid of the NAs. We can use <code>!is.na(WorkMethodsSelect)</code>, short for <code>is.na(WorkMethodsSelect) == FALSE</code>, to filter out NAs. We then use <code>str_split</code>, from stringr, to divide the entries up. <code>str_split(WorkMethodsSelect, ",")</code> says “Take this string and split it into a list by dividing it where there are <code>,</code>s.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>nested_workmethods <span class="ot">&lt;-</span> multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WorkMethodsSelect) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(WorkMethodsSelect)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">work_method =</span> <span class="fu">str_split</span>(WorkMethodsSelect, <span class="st">","</span>)) </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>nested_workmethods <span class="sc">%&gt;%</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(work_method)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7,773 × 1
+   work_method
+   &lt;list&gt;     
+ 1 &lt;chr [5]&gt;  
+ 2 &lt;chr [12]&gt; 
+ 3 &lt;chr [17]&gt; 
+ 4 &lt;chr [14]&gt; 
+ 5 &lt;chr [12]&gt; 
+ 6 &lt;chr [1]&gt;  
+ 7 &lt;chr [14]&gt; 
+ 8 &lt;chr [12]&gt; 
+ 9 &lt;chr [7]&gt;  
+10 &lt;chr [5]&gt;  
+# … with 7,763 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>Now we have a list column, with each entry in the list being one work method. We can <code>unnest</code> this so we can get back a tidy dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>unnested_workmethods <span class="ot">&lt;-</span> nested_workmethods <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(work_method) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(work_method)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>unnested_workmethods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 59,497 × 1
+   work_method                     
+   &lt;chr&gt;                           
+ 1 Association Rules               
+ 2 Collaborative Filtering         
+ 3 Neural Networks                 
+ 4 PCA and Dimensionality Reduction
+ 5 Random Forests                  
+ 6 A/B Testing                     
+ 7 Bayesian Techniques             
+ 8 Data Visualization              
+ 9 Decision Trees                  
+10 Ensemble Methods                
+# … with 59,487 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>Great! As a last step, let’s <code>count</code> this data so we can find which are the most common work methods people use.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>unnested_workmethods <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(work_method, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31 × 2
+   work_method                          n
+   &lt;chr&gt;                            &lt;int&gt;
+ 1 Data Visualization                5022
+ 2 Logistic Regression               4291
+ 3 Cross-Validation                  3868
+ 4 Decision Trees                    3695
+ 5 Random Forests                    3454
+ 6 Time Series Analysis              3153
+ 7 Neural Networks                   2811
+ 8 PCA and Dimensionality Reduction  2789
+ 9 kNN and Other Clustering          2624
+10 Text Analytics                    2405
+# … with 21 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>We see the classic methods of data visualization, logistic regression, and cross-validation lead the pack.</p>
+<section id="graphing-frequency-of-different-work-challenges" class="level3">
+<h3 class="anchored" data-anchor-id="graphing-frequency-of-different-work-challenges">Graphing Frequency of Different Work Challenges</h3>
+<p>Now let’s move on to understanding what challenges people face at work. This was one of those categories where there were multiple questions asked, all having names starting with <code>WorkChallengeFrequency</code> and ending with the challenge (e.g “DirtyData”).</p>
+<p>We can find the relevant columns by using the dplyr <code>select</code> helper <code>contains</code>. We then use <code>gather</code> to tidy the data for analysis, filter for only the non-NAs, and remove the <code>WorkChallengeFrequency</code> from each question using <code>stringr::str_remove</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>WorkChallenges <span class="ot">&lt;-</span> multiple_choice_responses <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"WorkChallengeFrequency"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(question, response) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(response)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">question =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(question, <span class="st">"WorkChallengeFrequency"</span>)) </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>WorkChallenges</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31,486 × 2
+   question response        
+   &lt;chr&gt;    &lt;chr&gt;           
+ 1 Politics Rarely          
+ 2 Politics Often           
+ 3 Politics Often           
+ 4 Politics Often           
+ 5 Politics Rarely          
+ 6 Politics Most of the time
+ 7 Politics Often           
+ 8 Politics Often           
+ 9 Politics Rarely          
+10 Politics Most of the time
+# … with 31,476 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>Let’s make a facet bar plot, one for each question with the frequency of responses.To make the x-axis tick labels readable, we’ll change them to be vertical instead of horizontal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WorkChallenges, <span class="fu">aes</span>(<span class="at">x =</span> response)) <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>question) <span class="sc">+</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/WorkChallenges_graph1-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>This graph has two main problems. First, there are too many histograms for it to be really useful. But second, the order of the x-axis is wrong. We want it to go from least often to most, but instead <code>rarely</code> is in the middle. We can manually reorder the level of this variable using <code>forcats::fct_relevel</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>WorkChallenges <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">response =</span> <span class="fu">fct_relevel</span>(response, <span class="st">"Rarely"</span>, <span class="st">"Sometimes"</span>, </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Often"</span>, <span class="st">"Most of the time"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> response)) <span class="sc">+</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>question) <span class="sc">+</span> </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/WorkChallenges_graph2-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>Now we’ve got the x-axis in the order we want it. Let’s try dichotomizing the variable by grouping “most of the time” and “often” together as the person considering something a challenge. We can use <code>if_else</code> and <code>%in%</code>. <code>%in%</code> is equivalent to <code>response == "Most of the time" | response == "Often"</code> and can save you a lot of typing if you have a bunch of variables to match.</p>
+<p>Grouping by the question, we can use <code>summarise</code> to reduce the dataset to one row per question, adding the variable <code>perc_problem</code> for the percentage of responses that thought something was a challenge often or most of the time. This way, we can make one graph with data for all the questions and easily compare them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>perc_problem_work_challenge <span class="ot">&lt;-</span> WorkChallenges <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">response =</span> <span class="fu">if_else</span>(response <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Most of the time"</span>, <span class="st">"Often"</span>), <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perc_problem =</span> <span class="fu">mean</span>(response)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perc_problem_work_challenge, <span class="fu">aes</span>(<span class="at">x =</span> question, <span class="at">y =</span> perc_problem)) <span class="sc">+</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/perc_problem_work_challenge_graph-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>This is better, but it’s hard to read because the points are scattered all over the place. Although you can spot the highest one, you then have to track it back to the correct variable. And it’s also hard to tell the order of the ones in the middle.</p>
+<p>We can use <code>forcats:fct_reorder</code> to change the x-axis to be ordered by another variable, in this case the y-axis. While we’re at it, we can use <code>scale_y_continuous</code> and<code>scales::percent</code> to update our axis to display in percent and <code>labs</code> to change our axis labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perc_problem_work_challenge, </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> perc_problem, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">fct_reorder</span>(question, perc_problem))) <span class="sc">+</span> </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Work Challenge"</span>, </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Percentage of people encountering challenge frequently"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/perc_problem_work_challenge_graph2-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>Much better! You can now easily tell which work challenges are encountered most frequently.</p>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>I’m a big advocate of using and teaching the tidyverse for data analysis and visualization in R (it runs <a href="http://varianceexplained.org/r/teach-tidyverse/">in the family</a>). In addition to doing these talks, I’ve released a DataCamp course on <a href="https://www.datacamp.com/courses/categorical-data-in-the-tidyverse">Categorical Data in the Tidyverse</a>. I walk through some of the functions in this course and more from forcats. It’s part of the new <a href="https://www.datacamp.com/tracks/tidyverse-fundamentals">Tidyverse Fundamentals skill track</a>, which is suitable for people are new to R or those looking to switch to the tidyverse. Check it out and let us know what you think.</p>
+<p>Some other good resources for learning the tidyverse are Hadley Wickham and Garrett Grolemund’s free <a href="http://r4ds.had.co.nz/">R for Data Science book</a> and <a href="https://www.rstudio.com/resources/cheatsheets/">RStudio’s cheat sheets</a>. If you have questions, I recommend using the <a href="https://community.rstudio.com/c/tidyverse">tidyverse section of RStudio community</a> and/or the #rstats hashtag on Twitter. If you do, make sure you include a reproducible example (see best practices <a href="https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html">here</a>) with the <a href="https://reprex.tidyverse.org/articles/articles/magic-reprex.html">reprex package</a>!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

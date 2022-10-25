@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2017-09-28">
+<meta name="description" content="A few tips to help you work more effectively with your non-analyst stakeholders.">
+
+<title>Hooked on Data - Managing Business Challenges in Data Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Managing Business Challenges in Data Science</h1>
+                  <div>
+        <div class="description">
+          A few tips to help you work more effectively with your non-analyst stakeholders.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Career</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 28, 2017</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-business-challenges" id="toc-why-business-challenges" class="nav-link active" data-scroll-target="#why-business-challenges">Why Business Challenges?</a></li>
+  <li><a href="#strategies-for-managing-business-challenges" id="toc-strategies-for-managing-business-challenges" class="nav-link" data-scroll-target="#strategies-for-managing-business-challenges">Strategies for Managing Business Challenges</a>
+  <ul class="collapse">
+  <li><a href="#dont-feign-surprise" id="toc-dont-feign-surprise" class="nav-link" data-scroll-target="#dont-feign-surprise">Don’t Feign Surprise</a></li>
+  <li><a href="#develop-empathy" id="toc-develop-empathy" class="nav-link" data-scroll-target="#develop-empathy">Develop empathy</a></li>
+  <li><a href="#invest-in-education-efforts" id="toc-invest-in-education-efforts" class="nav-link" data-scroll-target="#invest-in-education-efforts">Invest in Education Efforts</a></li>
+  <li><a href="#develop-consistency-among-the-analyst-team" id="toc-develop-consistency-among-the-analyst-team" class="nav-link" data-scroll-target="#develop-consistency-among-the-analyst-team">Develop consistency among the Analyst Team</a></li>
+  <li><a href="#lay-out-hypotheses-before-ab-tests" id="toc-lay-out-hypotheses-before-ab-tests" class="nav-link" data-scroll-target="#lay-out-hypotheses-before-ab-tests">Lay Out Hypotheses Before A/B Tests</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>A few weeks ago, I <a href="https://hookedondata.org/Giving-Your-First-Data-Science-Talk/">wrote about</a> my experience giving my first data science talk. If you’re interested, the full talk is available <a href="https://www.youtube.com/watch?v=SF-ryGgLOgQ">online</a>, as well as the <a href="https://github.com/robinsones/AB-Testing-Slides">slides</a>. In this post, I wanted to share some suggestions for managing business challenges that I didn’t have time to cover in my talk.</p>
+<section id="why-business-challenges" class="level2">
+<h2 class="anchored" data-anchor-id="why-business-challenges">Why Business Challenges?</h2>
+<p>Why devote a whole post and half a talk to business challenges instead of, say, cutting edge deep learning papers or the shiny new language for handling Big Data<sup>TM</sup>?</p>
+<p>While basic technical skills are the table stakes for a data science career, the importance of non-technical skills in a data science career is often overlooked. I think Yonatan Zunger, a former senior Google engineer, covers this very well in the second section of this <a href="https://medium.com/@yonatanzunger/so-about-this-googlers-manifesto-1e3773ed1788">post</a>. While he’s talking about engineering, his points can be equally applied to data science:</p>
+<blockquote class="blockquote">
+<p>People who haven’t done engineering, or people who have done just the basics, sometimes think that what engineering looks like is sitting at your computer and hyper-optimizing an inner loop, or cleaning up a class API… Engineering is not the art of building devices; it’s the art of fixing problems… Essentially, engineering is all about cooperation, collaboration, and empathy for both your colleagues and your customers.</p>
+</blockquote>
+<p>At Etsy, each of the analysts works with a partner team, including marketing, seller services, retention and loyalty, and finance. What we help them with can vary a lot. I mainly help design and analyze experiments for search, while other analysts create dashboards in Looker, new tables to make data access easier, or models for estimating the lifetime value of a new customer. While we may be especially deeply embedded with partner teams, all data scientists and analysts (or their managers) will have to work with non-analysts<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> sometimes. While I still have a long way to go, I wanted to share some advice and techniques I’ve found helpful.</p>
+</section>
+<section id="strategies-for-managing-business-challenges" class="level1">
+<h1>Strategies for Managing Business Challenges</h1>
+<section id="dont-feign-surprise" class="level3">
+<h3 class="anchored" data-anchor-id="dont-feign-surprise">Don’t Feign Surprise</h3>
+<p>To be a successful partner, you need to make sure your team is comfortable asking you questions. One way to almost guarantee that they won’t be is to “feign surprise.”</p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+"no feigning surprise" (from the wonderful <a href="https://twitter.com/recurse"><span class="citation" data-cites="recurse">@recurse</span></a> manual: <a href="https://t.co/Zk7ZQZqSbL">https://t.co/Zk7ZQZqSbL</a>) <a href="https://t.co/ZPc07LlFle">pic.twitter.com/ZPc07LlFle</a>
+</p>
+— ⚡Julia Evans⚡ (<span class="citation" data-cites="b0rk">@b0rk</span>) <a href="https://twitter.com/b0rk/status/846864384731365376">March 28, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Many Etsy engineers come from the <a href="https://www.recurse.com">Recurse Center</a> (formerly known as Hacker School), a free six or twelve week self-directed retreat for programmers. The Recurse Center has a set of social rules (along with a code of conduct) to make the environment productive and supportive for everyone. One of those is no “feigning surprise” when people admit they don’t know something. As they <a href="https://www.recurse.com/manual#sub-sec-social-rules">put it</a>:</p>
+<blockquote class="blockquote">
+<p>Feigning surprise has absolutely no social or educational benefit: When people feign surprise, it’s usually to make them feel better about themselves and others feel worse. And even when that’s not the intention, it’s almost always the effect. As you’ve probably already guessed, this rule is tightly coupled to our belief in the importance of people feeling comfortable saying “I don’t know” and “I don’t understand.”</p>
+</blockquote>
+<p>You also shouldn’t make assumptions about what your audience knows. Even if you live p-values and confidence intervals day in and day out, they don’t. You should lean on the side of always defining terms, which will also help in the case people think they know what something means but they actually don’t (very common with p-values).</p>
+</section>
+<section id="develop-empathy" class="level3">
+<h3 class="anchored" data-anchor-id="develop-empathy">Develop empathy</h3>
+<p>The Microsoft experimentation platform team put it best <a href="http://notes.stephenholiday.com/Five-Puzzling-Outcomes.pdf">when they said</a>: “our job … is to tell our clients that their new baby is ugly.” As they discuss, while teams build new features or products because they believe they’ll be useful, most experiments testing those new features reveal they don’t have a positive impact. Teams are often emotionally invested in their new feature: they’ve spent a lot of time working on it, and it was often one of the team members who came up with the idea in the first place. There may also be financial investment if a company has tied bonuses or performance reviews to experiment success.</p>
+<p>Even though I knew this intellectually, it took me time to develop empathy, and it’s still something I’m working on. It can be frustrating when you have to correct misinterpretations of seemingly “positive” results from peeking or <a href="http://www.slate.com/articles/health_and_science/science/2013/07/statistics_and_psychology_multiple_comparisons_give_spurious_results.html">slicing data in every possible way</a>. It’s useful to remember to take a step back and see that you have the same overarching goal: for your team do well and thus help the company.</p>
+</section>
+<section id="invest-in-education-efforts" class="level3">
+<h3 class="anchored" data-anchor-id="invest-in-education-efforts">Invest in Education Efforts</h3>
+<p>Think about how you and your team can help non-analysts understand and make data-driven decisions. First, it will save you time. If an engineer knows they’ll need to record the listings that are eligible for a new badge in the variant <em>and</em> the control, so you can compare clickthrough rates, or the product manager knows how to use experimentcalculator.com and discovers their experiment would take 150 days to be appropriately powered, that’s one less question they’ll have to ask you. But second, many companies profess they want to have data-driven decision making. This doesn’t work if only the analysts can understand data, and so companies are investing in wider data education efforts:</p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+Data University is our effort to help every person at Airbnb make data informed decisions - come read how! <a href="https://t.co/2HjZxnkjHK">https://t.co/2HjZxnkjHK</a>
+</p>
+— Airbnb Data (<span class="citation" data-cites="AirbnbData">@AirbnbData</span>) <a href="https://twitter.com/AirbnbData/status/867514655060615168?ref_src=twsrc%5Etfw">May 24, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>At Etsy, we’ve been working on a multi-pronged approach to education. The data engineering team developed an experiment hub, where they’ve gathered documentation about our various tools. Evan D’Agostini, another analyst, and I wrote a general guide to experiments at Etsy, and also gave an “Edsy,” an internal talk, on it. I’m now experimenting with offering office hours for people to come with general questions about experimentation. Finally, we have a Slack channel dedicated to experiment questions, monitored not only by data analysts but also by experiment-savvy engineers.</p>
+</section>
+<section id="develop-consistency-among-the-analyst-team" class="level3">
+<h3 class="anchored" data-anchor-id="develop-consistency-among-the-analyst-team">Develop consistency among the Analyst Team</h3>
+<p>Working with partner teams becomes much easier if you have some consistent standards and practices within the analyst team. For examples, here are some differences that can cause problems:</p>
+<ul>
+<li>If your team thinks you’re stricter than other analysts in judging experiment results</li>
+<li>If analysts are calculating incremental revenue from experiment launches differently</li>
+<li>If one analyst says you have to run experiments for at least a week, even if you’re powered before then, while others say four days is fine</li>
+</ul>
+<p>Working to develop consistency is also a great opportunity to learn for each other. For example, some analysts may not be as familiar with the problems of peeking, which may be why they weren’t as strict on not doing so. That kind of information-sharing can also help make a smoother transition when a partner team has to change analysts.</p>
+</section>
+<section id="lay-out-hypotheses-before-ab-tests" class="level3">
+<h3 class="anchored" data-anchor-id="lay-out-hypotheses-before-ab-tests">Lay Out Hypotheses Before A/B Tests</h3>
+<p>Lay out hypotheses ahead of time, especially about whether you will launch on a neutral result (when it’s inconclusive whether your metric went up or down). People often think they don’t need to have specific hypotheses beyond “we’ll launch if it’s better,” because they think results will be really clear. But you’ll be surprised at the sheer combination of results that are possible (e.g.&nbsp;search clicks went down, but mean search purchase went up, and conversion is neutral, but add to cart is slightly down, etc.). Picking one or two key metrics for launch and a few other metrics for monitoring will also help you from having a multiple comparisons problem, where you’re <a href="https://en.wikipedia.org/wiki/Multiple_comparisons_problem">testing so many metrics one of them will be significant</a>, even if there really is no change.</p>
+<p>If you found this post useful, you might be interested in the book on data science careers I wrote with <a href="https://jnolis.com">Jacqueline Nolis</a>, <a href="https://datascicareer.com">“Build Your Career in Data Science,”</a>, available for 40% off with the code buildbook40%.</p>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>I’m using “non-analyst” as a catch-all phrase for anyone who isn’t in analytics (e.g.&nbsp;not a data scientist, business analyst, data analyst, etc.).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

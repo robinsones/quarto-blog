@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2017-08-14">
+<meta name="description" content="The why and how of giving a good data science talk.">
+
+<title>Hooked on Data - Giving Your First Data Science Talk</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Giving Your First Data Science Talk</h1>
+                  <div>
+        <div class="description">
+          The why and how of giving a good data science talk.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Career</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 14, 2017</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-do-a-talk" id="toc-why-do-a-talk" class="nav-link active" data-scroll-target="#why-do-a-talk">Why do a Talk?</a></li>
+  <li><a href="#giving-a-talk" id="toc-giving-a-talk" class="nav-link" data-scroll-target="#giving-a-talk">Giving a Talk</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>A few weeks ago, I gave my first ever data science talk. Jared Lander, organizer of the <a href="https://www.meetup.com/nyhackr/">New York Statistical Open Programming meetup</a>, had been asking me to speak, and after about six months at Etsy I thought I could share what I’d learned about A/B Testing and its challenges. If you’d like to watch it, you can view the recording <a href="https://www.youtube.com/watch?v=SF-ryGgLOgQ">here</a>. The talk starts around 9:00 and ends at 41:30, with the rest being Q&amp;A (I tried to repeat the questions, so you should be able to follow that as well).</p>
+<p>This is part one of a blog post series about the talk. This first post is targeted to those who are considering giving a meetup or conference talk. The next one will be covering what I went over in my talk, and the final one will be distilling more of what I’ve learned about A/B Testing from my time at Etsy and by reading papers.</p>
+<section id="why-do-a-talk" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-a-talk">Why do a Talk?</h2>
+<p><em>Disclaimer</em></p>
+<p>I want to preface this section by acknowledging that it is more difficult for some people to give talks than others. I live in New York, a major tech city, but for those who live in places where the tech community is smaller, there may not be a meetup for you to speak at or a large audience that you can draw. That being said, there are more of us than you might think; Rladies has chapters in over <a href="https://rladies.org">40 cities</a> and you may be surprised when you look to see what your community can offer.</p>
+<p>Another major constraint is time. For those who have caregiving responsibilities or simply want to keep their work mainly limited to the office, doing a talk may not be feasible or appealing. While I think there are many benefits for yourself and others in doing public work, it should not become a requirement for a fulfilling data science career.</p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+Because relying on public code massively discriminates in favour of those who have time to code outside of work?
+</p>
+— Hadley Wickham (<span class="citation" data-cites="hadleywickham">@hadleywickham</span>) <a href="https://twitter.com/hadleywickham/status/883295260079685634">July 7, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><em>Giving Back</em></p>
+<p>On the other hand, if you’re considering giving a talk but think you don’t have anything to contribute, don’t underestimate yourself! You probably have more to offer than you think. The main reason an open source language can thrive is because of the community that contributes to it, usually without being paid. Certainly one way to give back is by contributing code, but you can also give talks or write blog posts. While I haven’t made or contributed code to a public package (yet!), I believe that this blog and recorded, free talks can help.</p>
+<p><em>Personal Benefits</em></p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+Create things useful to other people. <a href="https://t.co/MgptvBTeOz">https://t.co/MgptvBTeOz</a>
+</p>
+— Chris Albon (<span class="citation" data-cites="chrisalbon">@chrisalbon</span>) <a href="https://twitter.com/chrisalbon/status/890066076511371264">July 26, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Giving a talk is a great way to build your network and raise your data science profile. While you can (and certainly should!) meet new people as an attendee, when you’re the speaker, people will probably come up to you after the talk to continue the discussion. And if your talk is recorded and publicly shared, you’ll have a public piece of work available.</p>
+</section>
+<section id="giving-a-talk" class="level2">
+<h2 class="anchored" data-anchor-id="giving-a-talk">Giving a Talk</h2>
+<p><em>Target the you of six months (one year, five years) ago</em></p>
+<p>One of my favorite parts about working at Etsy is the womenby (women and non-binary) in tech group. We have a private slack channel, and the day after my talk, a senior engineer was asking for opinions on an upcoming talk. She wanted to frame the talk as a story about how they built a distributed streaming platform on docker and the mistakes they made, but she worried it would make her and her team look inexperienced and possibly stupid for not anticipating the difficulties.</p>
+<p>My advice was to think of yourself before taking on this project and ask if you would have found it useful then. I would bet most of the time the answer is yes, and that the audience is more similar to you six months ago than you after this experience.</p>
+<p><em>Don’t have text or idea heavy slides</em></p>
+<p>Having seen multiple paragraphs in size 10 font literally read off of a slide, I thought I was doing pretty well in the initial version of my talk. I had no slides with more than a few bullet points and in a few of them I had varied up the design. But on one these slides, even though there were only about 20 words in six nice little boxes, I was trying to cover six points in one go!</p>
+<p>While I had avoided visual overload, I hadn’t thought about the cognitive overload. To solve the issue with my slide, I switched to only cover three points and spread them out over about twelve slides. Although I ended up covering fewer points, no one’s going to remember everything about your talk. Focus on keeping your audience engaged so that they can absorb the points most relevant to them.</p>
+<p>I highly advise you to check out <a href="https://speakerdeck.com/mseckington/the-art-of-slide-design">this deck on slide design</a> for more tips and examples.</p>
+<p><em>Practice, practice, practice (and ask for feedback!)</em></p>
+<p>This sounds pretty basic, but it can be easy to procrastinate on preparing the talk and feel just reading over the slides is fine. Fortunately as an Etsy employee I had to submit my slides to our communication and legal teams ahead of time, so I was forced to make them early.</p>
+<p>Starting two weeks before my presentation, I practiced with five different people (a few of them multiple times). Try to get people with different backgrounds: I practiced with fellow and former Etsy analysts, but also with my non-technical (but presentation expert) sister-in-law. Their advice was very helpful in improving the slides and the talk, but I also found that simply giving the talk out loud helped me see where transitions or slides didn’t work.</p>
+<p><em>Rally your support team</em></p>
+<p>While I feel fairly comfortable with public speaking, I’d never done it to an audience this size or on data science. I was also shy about promoting my talk.</p>
+<p>This is where your supporters can come in to help. My manager advertised my talk at work, my brother tweeted about it, and the other NYC rladies organizers promoted it in our slack channel. Many of them also came to the talk (my brother almost straight off a flight from London!), so I had some friendly faces in the audience.</p>
+<p>And finally, if your nerves start overcoming you before your talk, just remember this classic and sage advice from one of my search engineering partners:</p>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+Best advice for reducing nerves before giving a data science talk: "just imagine that your audience uses p-values of .25 for significance"
+</p>
+— Emily Robinson (<span class="citation" data-cites="robinson_es">@robinson_es</span>) <a href="https://twitter.com/robinson_es/status/890681844571811842">July 27, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>If you found this post useful, you might be interested in the book on data science careers I wrote with <a href="https://jnolis.com">Jacqueline Nolis</a>, <a href="https://datascicareer.com">“Build Your Career in Data Science,”</a>, available for 40% off with the code buildbook40%.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2017-01-19">
+<meta name="description" content="A summary of my top technical takeaways from rstudio::conf(2017).">
+
+<title>Hooked on Data - RStudio Conference: Tips and Tricks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">RStudio Conference: Tips and Tricks</h1>
+                  <div>
+        <div class="description">
+          A summary of my top technical takeaways from rstudio::conf(2017).
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Conference</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 19, 2017</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#useful-packages-tools-and-functions" id="toc-useful-packages-tools-and-functions" class="nav-link active" data-scroll-target="#useful-packages-tools-and-functions">Useful Packages, Tools, and Functions</a></li>
+  <li><a href="#writing-functions" id="toc-writing-functions" class="nav-link" data-scroll-target="#writing-functions">Writing Functions</a></li>
+  <li><a href="#keyboard-shortcuts" id="toc-keyboard-shortcuts" class="nav-link" data-scroll-target="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+  <li><a href="#general-tips-and-tricks" id="toc-general-tips-and-tricks" class="nav-link" data-scroll-target="#general-tips-and-tricks">General Tips and Tricks</a></li>
+  <li><a href="#other-conference-write-ups" id="toc-other-conference-write-ups" class="nav-link" data-scroll-target="#other-conference-write-ups">Other Conference Write-Ups</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>This is the second part of my posts on the rstudio::conf. If you’re interested in more general thoughts on the conference and some personal notes, check out my <a href="hookedondata.org/RStudio-Conference-Recap/">other post</a>. This post is to gather, as succintly and organized as possible, the practical and technical things I learned at the conference. While I did a whole training day on writing R Packages, I haven’t included most of what I’ve learned here. Instead, I’ll be integrating it into a future post on writing my first R package.</p>
+<section id="useful-packages-tools-and-functions" class="level2">
+<h2 class="anchored" data-anchor-id="useful-packages-tools-and-functions">Useful Packages, Tools, and Functions</h2>
+<ul>
+<li><p><strong>Assertr’s verify function</strong>: The verify function is meant for use in a data analysis pipeline. It raises an error if the logical within the function is false and just returns the data if True. This is a great way to add some assumption checks in your data pipelines. For example, <code>mtcars %&gt;% verify(nrow(.) == 32) %&gt;% filter(cyl == 6)</code> simply returns the data frame of all cars with 6 cylinders, as expected, because <code>mtcars</code> does indeed have 32 rows. If, however, we had put the wrong number of rows in (e.g.&nbsp;<code>verify(nrow(.) == 24)</code>), we would have gotten no data, with this error instead: <code>Error in verify(., nrow(.) == 24) : verification failed! (1 failure)</code>.</p></li>
+<li><p><strong>Profvis</strong>: This is a tool to visualize how long each part of your code is taking to run. This is a great way to figure out how to speed up your code, as often your intuition of what is taking the most time does not match reality. To use it, all you have to do is wrap your code in the profvis function, like so: <code>profvis({ my_function })</code>. A new pane will then pop up in RStudio that shows how long each line takes to run and even what functions each calls. Learn more on the RStudio <a href="https://rstudio.github.io/profvis/">Profvis page</a>.</p></li>
+<li><p><strong>Abbreviating arguments</strong>: You can abbreviate arguments within functions. So instead of writing <code>mean(c(10, 5, NA), na.rm = TRUE</code>), you can simply right <code>mean(c(10, 5, NA), n = T)</code>. CAUTION: this can go wrong, especially in the case of using T and F as abbreviations for TRUE and FALSE. For example, if for some reason you (or an evil coworker) had put <code>T &lt;- F</code> before you run this code, now your output will be <code>NA</code>!</p></li>
+<li><p><strong>Listviewer</strong>: One of the hardest parts about working with nested lists is trying to figure out what the heck is in them. The <code>jsonedit</code> function from listviewer allows you to see the layers of a list and even search through them. Here’s what it looks like when I run it with got_chars, a list from Jenny Bryan’s great <a href="https://github.com/jennybc/repurrrsive">repurrrsive package</a>:</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../img/Listviewer.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image of Listviewer</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="writing-functions" class="level2">
+<h2 class="anchored" data-anchor-id="writing-functions">Writing Functions</h2>
+<ul>
+<li>When writing a function, the last thing you should do is start writing a function. You should always start by figuring out how to solve problems with specific x and y and then generalize.</li>
+<li>It’s better to do little steps and check after each one. That way you don’t go a long way, realize you did something wrong, and have to backtrack hours of work.<br>
+</li>
+<li>It’s time to write a function when you copy and paste three times. Copying and pasting too much is bad because it increases the possibility for error and clutters up your code.</li>
+<li>A function is “pure” if its output only depends on its input and it makes no changes to state of the world (such as resetting options).</li>
+<li>Try to make functions “purer” by having it do one thing. You can put the other things in a different function.</li>
+<li>Properties of a good function
+<ul>
+<li>It does one thing (avoids side effects)</li>
+<li>The output is consistent, meaning it always returns the same type of object (e.g.&nbsp;dataframe, character vector, etc.)</li>
+<li>It fails fast</li>
+<li>It has a good name: not too long and makes it clear what the function does</li>
+<li>It works</li>
+</ul></li>
+<li>Your function should be understandable. This is about being correct in the future. Often what you want to do is going to change over time, and if you can’t understand how a function works, your chances of making a change correctly is smaller. If you try to make your function too clever, you’ll probably end up like this</li>
+</ul>
+<blockquote class="twitter-tweet blockquote" data-lang="en">
+<p lang="en" dir="ltr">
+.<a href="https://twitter.com/hadleywickham"><span class="citation" data-cites="hadleywickham">@hadleywickham</span></a> on clever programming solutions<br>Now: "My god I am a total coding genius” <br>3 months later: "I have no idea what this means"
+</p>
+— Emily Robinson (<span class="citation" data-cites="robinson_es">@robinson_es</span>) <a href="https://twitter.com/robinson_es/status/819225758367449088">January 11, 2017</a>
+</blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<ul>
+<li>Writing good error messages is really hard, because it relies on you having good mental model of someone else’s flawed mental model of your function.</li>
+<li>Only ever use return for special cases. If a function can return early, it should use an explicit return call. Otherwise return just adds verbosity for no real reason. You want to save return as a call out to mean this is special case.</li>
+<li>Don’t write functions that both compute something and then do something with it. For example, the <code>summary</code> function for a linear model both computes and prints the p-value</li>
+</ul>
+</section>
+<section id="keyboard-shortcuts" class="level2">
+<h2 class="anchored" data-anchor-id="keyboard-shortcuts">Keyboard Shortcuts</h2>
+<ul>
+<li>Hit tab after you start typing to get all functions that start with those letters. Cmd/Ctrl + up arrow instead gives you the commands you’ve typed</li>
+<li>Hold alt and drag your cursor to type on multiple lines</li>
+<li>Alt + shift + k for all keyboard shortcuts</li>
+<li>And you can <a href="https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts">make your own keyboard shortcuts</a></li>
+</ul>
+</section>
+<section id="general-tips-and-tricks" class="level2">
+<h2 class="anchored" data-anchor-id="general-tips-and-tricks">General Tips and Tricks</h2>
+<ul>
+<li>Reading rcode broadly is useful, as it can help expand your R vocabulary.</li>
+<li>Hadley sets these options in R, to avoid the pitfalls of R’s “helpful” partial name matching</li>
+</ul>
+<pre><code>options(warnPartialMatchArgs = TRUE, warnPartialMatchDollar = TRUE, warnPartialMatchAttr = TRUE)</code></pre>
+<ul>
+<li>Most of the time the bottleneck is thinking speed, not computational speed</li>
+<li>Don’t proactively worry about performance of your code, but about whether it’s clear.</li>
+<li>Don’t try to read your code and think whether it will be fast or slow. Your intuition is terrible. Just run it! You can also use <code>profvis</code> to help.</li>
+<li>It’s very easy to make code faster by making it incorrect. One of the reasons to write tests!</li>
+<li>Restart R a few times a day and never restore or save your .RData. This will help the reproducibility of your code and also if your coworkers do something like redefine <code>+</code> (yes, you can do that in R).</li>
+<li>Don’t use comments to say what/how your code is doing, use it to describe why. Otherwise, you have to remember to change comments when you change your code. You really don’t want to end up with your code doing one thing and your comment saying you’re doing something else.</li>
+<li>You can be too verbose in your code because don’t have enough r vocabulary. For example:
+<ul>
+<li><code>if(x == TRUE)</code> is the same as <code>if(x)</code></li>
+<li><code>y == "a" | y == "b" | y == "c"</code> is the same as <code>y %in% c("a", "b", “c”)</code></li>
+</ul></li>
+<li>Bob Rudis’ five rules for using pipes. P.S. This was probably the most elaborate and fun slideshow. Definitely <a href="https://github.com/hrbrmstr/rstudioconf2017#readme">check it out</a>!</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../img/Rules_of_pipe.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Image of pipes</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="other-conference-write-ups" class="level2">
+<h2 class="anchored" data-anchor-id="other-conference-write-ups">Other Conference Write-Ups</h2>
+<ul>
+<li>Sharon Machlis’s <a href="http://www.computerworld.com/article/3157004/data-analytics/best-tips-and-takeaways-from-rstudio-conference.html">tips and takeaways</a>, which is in a bullet-point and short paragraph format. This is a great complement to this list, since hers are from the conference talks and most of mine are from the training days with Hadley</li>
+<li>Stephen Turner’s <a href="http://www.gettinggeneticsdone.com/2017/01/rstudio-conference-2017-recap.html">recap</a>, with nice short summaries of some of the talks</li>
+<li>Simon Jackson’s <a href="https://drsimonj.svbtle.com/opinions-and-challenges-at-rstudio-conf">takeaways</a> from the conference, organized around the opinions and challenges about data science processes in the R community. This organizational schema was inspired by Hilary Parker’s great talk on <a href="http://www.slideshare.net/hilaryparker/opinionated-analysis-development">Opinionated Analysis Development</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

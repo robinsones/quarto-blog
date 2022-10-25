@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2016-07-26">
+<meta name="description" content="My struggles with STATA and how it motivated me to want to create my first R package.">
+
+<title>Hooked on Data - Creating My First R Package Part 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Creating My First R Package Part 1</h1>
+                  <div>
+        <div class="description">
+          My struggles with STATA and how it motivated me to want to create my first R package.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 26, 2016</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-memore-function" id="toc-the-memore-function" class="nav-link active" data-scroll-target="#the-memore-function">The MEMORE function</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#to-be-continued" id="toc-to-be-continued" class="nav-link" data-scroll-target="#to-be-continued">To Be Continued</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>As I mentioned in my <a href="https://hookedondata.org/From-Social-Scientist-to-Data-Scientist/">previous post</a>, I was fortunate to enter graduate school with a few years of programming experience in R. I learned R exclusively through my Statistics classes; while I took the graduate-level psychology statistics course at Rice and was a research assistant in multiple departments, all used SPSS.</p>
+<p>As this discrepancy suggests, the social sciences are often lagging behind in teaching and using open-source software. Fortunately, there is some effort to change this. The PhD director at INSEAD recently sent out an email expressing his delight that students were becoming increasingly interested in learning how to do computer programming. He announced that new students in future years would be asked to spend their summer before joining INSEAD learning basic programming, although it would not become an admission requirement.</p>
+<p>While a few INSEAD students and research assistants use Python, R, MATLAB, or other languages, all the courses I took used STATA. Here’s a brief summary of my experience with STATA:</p>
+<ul>
+<li>Googling my problems and being directed to <a href="http://www.stata.com/statalist/archive/2010-04/msg01673.html">old</a> <a href="http://www.stata.com/statalist/archive/2009-04/msg00976.html">listserv</a> <a href="http://www.stata.com/statalist/archive/2007-09/msg00099.html">posts</a> instead of the <a href="http://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names">beautiful</a> <a href="http://stackoverflow.com/questions/12357592/efficient-multiplication-of-columns-in-a-data-frame">Stack Overflow</a> <a href="http://stackoverflow.com/questions/4203442/for-loop-vs-while-loop-in-r">answers</a> I had been spoiled with when using R.<br>
+</li>
+<li>Wishing there was a way to create reproducible documents with code, output, and explanations as I did with R Markdown and Jupyter Notebooks<br>
+</li>
+<li>Yelling at the computer “I know how to do this in R!” and “This is better/easier/prettier in R!”</li>
+</ul>
+<p>But STATA was the language of INSEAD’s analytical classes, and so STATA was the language I would use. Until I finally reached a breaking point while trying to replicate the <a href="http://afhayes.com/spss-sas-and-mplus-macros-and-code.html">MEMORE</a> macro in STATA for a spontaneous class assignment by a teacher who had not yet tried to do so himself.</p>
+<section id="the-memore-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-memore-function">The MEMORE function</h2>
+<p>MEMORE stands for “MEdiation and MOderation in REpeated-measures designs” and is a macro for SPSS and SAS created by Montoya and Hayes. As they describe:</p>
+<blockquote class="blockquote">
+<p>It estimates the total, direct, and indirect effects of X on Y through one or more mediators M in the two-condition or two-occasion within-subjects/repeated measures design. In a path analytic form using OLS regression as illustrated in Montoya and Hayes (2015), it implements the method described by Judd, Kenny, and McClelland (2001, Psychological Methods) and extended by Montoya and Hayes (2015) to multiple mediators. Along with an estimate of the indirect effect(s), MEMORE generates confidence intervals for inference about the indirect effect(s) using bootstrapping approach.</p>
+</blockquote>
+<p>I managed to get the STATA code to work eventually, but in the meantime I decided to tackle it with R. I also wanted the chance to keep to continue practicing using R Markdown instead of R Scripts. With R Markdown, I could not only write a function equivalent to the MEMORE macro but also include an explanation of the function in the same document. Using a combination of the <a href="http://afhayes.com/public/memore.pdf">documentation of the function</a> and <a href="http://psycnet.apa.org/psycinfo/2016-32270-001/">the accompanying paper</a>, I replicated the basic function and included the options for setting number of bootstrap repetitions, confidence interval (CI) size, and which bootstrap CI would be calculated.</p>
+<p>This did earn me some praise from my difficult-to-please German professor:</p>
+<p><img src="../../img/Excellent_Feedback.png" class="img-fluid"></p>
+<p>I also created a <a href="https://github.com/robinsones/R-MEMORE">GitHub repository</a> to store my R Markdown document. But since March I had pretty much left it there.</p>
+</section>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>I had bookmarked <a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/">Hilary Parker’s blog post</a> on writing R packages months ago, but never got around to doing anything with it. I appreciated how straightforward and simple she made the process seem (and of course that she used an example with cats).</p>
+<p>Since her post, Hadley had released a <a href="http://r-pkgs.had.co.nz">book</a> on writing packages in R. I started reading the first chapter, but I quickly realized I would only really retain and understand writing packages if I did it myself. So I decided to finally turn the MEMORE R Markdown document into a real, easily useable package.</p>
+<p>Turning this function into a package offers a few benefits:</p>
+<ul>
+<li><p><strong>Better Understanding of Packages</strong>: When I want to understand what a function does or what parameters it accepts, I usually look at the documentation. But sometimes I want look at the implementation of the function. For a package with many files and folders (e.g.&nbsp;<a href="https://github.com/hadley/ggplot2">ggplot2</a>), this can quickly become overwhelming. Going through the steps of writing my own package should help me understand the importance of each component and the overall organization.</p></li>
+<li><p><strong>Contributing to Open-Source</strong>: Unlike STATA, SPSS, or SAS, R is a free, open-source software. Without the many people who volunteer their time to create new packages, fix bugs, and answer questions for no financial compensation, R could not hope to compete with those softwares. The people I know in the R community have been very welcoming, and I hope to meet more by attending conferences such as <a href="https://www.rstudio.com/conference/">rstudio::conf</a> and <a href="http://user2016.org">useR!</a>. Eventually I want to write packages that go beyond just adding one statistical tool to contributing the data analysis process itself. But first I need to learn the basic structure of creating a package. I’m not sure if anyone will ever use my package, but I’m sure the exercise will pay off in the long run.</p></li>
+</ul>
+</section>
+<section id="to-be-continued" class="level2">
+<h2 class="anchored" data-anchor-id="to-be-continued">To Be Continued</h2>
+<p>Trying to write my first R program while in the middle of a data science boot camp based in Python is not easy. Any time I could set aside for it could also be spent working on my boot camp projects or trying to consolidate what we learned that day or week. I’m still optimistic that I’ll get it done before the boot camp ends in mid-September, but even if not, I’ll write follow-up blog post where I document the process of creating an R package.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

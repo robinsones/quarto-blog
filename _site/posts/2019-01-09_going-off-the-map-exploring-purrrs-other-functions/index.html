@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2019-01-09">
+<meta name="description" content="A walkthrough of some lesser-known purrr functions.">
+
+<title>Hooked on Data - Going Off the Map: Exploring purrr’s Other Functions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Going Off the Map: Exploring purrr’s Other Functions</h1>
+                  <div>
+        <div class="description">
+          A walkthrough of some lesser-known purrr functions.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 9, 2019</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#a-brief-introduction-to-map" id="toc-a-brief-introduction-to-map" class="nav-link" data-scroll-target="#a-brief-introduction-to-map">A brief introduction to map()</a></li>
+  <li><a href="#beyond-map" id="toc-beyond-map" class="nav-link" data-scroll-target="#beyond-map">Beyond map()</a>
+  <ul class="collapse">
+  <li><a href="#modifying-and-summarizing-vectorslists" id="toc-modifying-and-summarizing-vectorslists" class="nav-link" data-scroll-target="#modifying-and-summarizing-vectorslists">Modifying and summarizing vectors/lists</a></li>
+  <li><a href="#modifying-functions" id="toc-modifying-functions" class="nav-link" data-scroll-target="#modifying-functions">Modifying functions</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="cell">
+
+</div>
+<p>I recently completed <a href="https://colinfay.me/">Colin Fay’s</a> excellent DataCamp course, <a href="https://www.datacamp.com/courses/intermediate-functional-programming-with-purrr">Intermediate Functional Programming with purrr</a> (full disclosure: I work at DataCamp, but part of why I joined was that I was a big fan of the short, interactive course format). Although I’ve used the <code>purrr</code> package before, there were a lot of functions in this course that were new to me. I wrote this post to hopefully demystify <code>purrr</code> a bit for those who find it overwhelming and illustrate some of its lesser known functions. Most of these functions are covered in Colin’s course, though I added a few I found on the <a href="https://www.rstudio.com/resources/cheatsheets/#purrr"><code>purrr</code> cheatsheet</a>.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><code>purrr</code> is a package for functional programming in R. If you’re familiar with it, it’s probably because of the <code>map()*</code> functions. And if you’ve been a little bit intimidated by them, I’m right there with you. You’ll often see <code>purrr</code> used with nested lists or dataframes, like in this (modified) example from one of the last lessons in Jenny Bryan’s <code>purrr</code> tutorial:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit =</span> <span class="fu">map</span>(data, <span class="sc">~</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> year, <span class="at">data =</span> .x))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rsq =</span> <span class="fu">map_dbl</span>(fit, <span class="sc">~</span> <span class="fu">summary</span>(.x)[[<span class="st">"r.squared"</span>]])) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(rsq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 142 × 4
+# Groups:   country [142]
+   country          data              fit       rsq
+   &lt;fct&gt;            &lt;list&gt;            &lt;list&gt;  &lt;dbl&gt;
+ 1 Rwanda           &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0172
+ 2 Botswana         &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0340
+ 3 Zimbabwe         &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0562
+ 4 Zambia           &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0598
+ 5 Swaziland        &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0682
+ 6 Lesotho          &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.0849
+ 7 Cote d'Ivoire    &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.283 
+ 8 South Africa     &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.312 
+ 9 Uganda           &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.342 
+10 Congo, Dem. Rep. &lt;tibble [12 × 5]&gt; &lt;lm&gt;   0.348 
+# … with 132 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<p>If you’ve generally worked with plain-old table data or vectors (like I have), you might have this reaction to that code:</p>
+<p><img src="https://media.giphy.com/media/a93jwI0wkWTQs/giphy.gif" class="img-fluid"></p>
+<p>But I am here to tell you: <code>purrr</code> can make your life easier even if you never write code like this. Certainly, knowing how to work with complicated nested lists and dataframes is very useful - it can simplify code you’ve written, and your data may arrive in that format (for example, JSON data is often represented as nested lists or dataframes in R). But even if all you ever work with is “simple” lists, dataframes, and vectors, you’ll be glad to know a bit of <code>purrr</code>.</p>
+</section>
+<section id="a-brief-introduction-to-map" class="level2">
+<h2 class="anchored" data-anchor-id="a-brief-introduction-to-map">A brief introduction to map()</h2>
+<p><code>map()</code> lets you take a list or vector and apply a function to each element. If you’ve been using R for a while, you might be familiar with the apply functions, including <code>sapply()</code> and <code>lapply()</code>. <code>map()</code> does essentially the same thing, but offers several advantages, most importantly consistency of output and helpers that let you write more concise code (see the first Stack Overflow answer by Hadley Wickham <a href="https://stackoverflow.com/questions/45101045/why-use-purrrmap-instead-of-lapply">here</a>).</p>
+<p>Let’s look at an example, where we take a list of four numbers and round each of them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.0212</span>, <span class="fl">2.483</span>, <span class="fl">3.189</span>, <span class="fl">4.5938</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(my_vector, round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 3
+
+[[4]]
+[1] 5</code></pre>
+</div>
+</div>
+<p>The result is a list (hence the double brackets), which is always the case with <code>map()</code>. But you can return a dataframe or different types of vectors instead by using the appropriate <code>map_*()</code> function. In this case, let’s return a vector of type <code>double</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(my_vector, round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 5</code></pre>
+</div>
+</div>
+<p>You can also use <code>map</code> with an “anonymous” function, a function that doesn’t have a name. The formula is a <code>~</code> followed by what you want to do to each element, with <code>.x</code> representing the element (<code>.</code> also works). We can make an anonymous function to add ten to each element of our vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(my_vector, <span class="sc">~</span> .x <span class="sc">+</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11.0212 12.4830 13.1890 14.5938</code></pre>
+</div>
+</div>
+<p><code>map()</code> can get much (much) more complicated, with nested lists and multiple inputs and arguments, but even knowing this basic use case can help you! If you do want to dive in more, check out <a href="https://r4ds.had.co.nz/iteration.html#the-map-functions">chapter 21 of R for Data Science</a>, Jenny Bryan’s <a href="https://jennybc.github.io/purrr-tutorial/">purrr tutorials</a>, Auriel Fournier’s <a href="https://www.datacamp.com/courses/foundations-of-functional-programming-with-purrr">Foundations of Functional Programming with purrr</a> course, and chapters 3 and 4 of <a href="https://www.datacamp.com/courses/writing-functions-in-r">Writing Functions in R</a> by Charlotte and Hadley Wickham on DataCamp.</p>
+</section>
+<section id="beyond-map" class="level2">
+<h2 class="anchored" data-anchor-id="beyond-map">Beyond map()</h2>
+<p>While <code>map*()</code> is great, it can still take a while to wrap your head around. But <code>purrr</code> offers dozens of useful functions that you can start using right away to streamline your workflow, even if you don’t use <code>map()</code>. Let’s check out a few. I’ll separate them into two types: those that create new functions and those that modify a list/vector.</p>
+<section id="modifying-and-summarizing-vectorslists" class="level3">
+<h3 class="anchored" data-anchor-id="modifying-and-summarizing-vectorslists">Modifying and summarizing vectors/lists</h3>
+<section id="keep-and-discard" class="level4">
+<h4 class="anchored" data-anchor-id="keep-and-discard">keep() and discard()</h4>
+<p><code>keep()</code> and <code>discard()</code> … keep and discard elements of a list or vector based on a <em>predicate function</em>. A predicate function is a function that returns <code>TRUE</code> or <code>FALSE</code>. So <code>is.factor()</code> is a predicate function, because it always returns <code>TRUE</code> or <code>FALSE</code>, while <code>round()</code> is not.</p>
+<p>For example, we can <code>keep()</code> all elements of our list that are less than 3 with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">keep</span>(my_vector, <span class="sc">~</span> .x <span class="sc">&lt;</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.0212 2.4830</code></pre>
+</div>
+</div>
+<p>Similarly, we could <code>discard()</code> all elements less than 3:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">discard</span>(my_vector, <span class="sc">~</span> .x <span class="sc">&lt;</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.1890 4.5938</code></pre>
+</div>
+</div>
+</section>
+<section id="map_if" class="level4">
+<h4 class="anchored" data-anchor-id="map_if">map_if()</h4>
+<p>What if you’re not sure about the types of every element in your list, and you want to apply a function that needs the input to be of a certain type? For example, let’s say we wanted to add 10 to every element of a list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mixed_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"happy"</span>, 2L, <span class="fl">4.39</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>add_ten <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  n <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(mixed_list, add_ten)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in n + 10: non-numeric argument to binary operator</code></pre>
+</div>
+</div>
+<p>We get an error since we’re trying to add 10 to “happy”, which isn’t numeric!</p>
+<p>This is where <code>map_if()</code> comes in handy. Just like <code>mutate_if()</code>, <code>select_if()</code>, and <code>summarise_if()</code>, you add a condition and the function will only apply to those columns (or list elements) where the condition is met. Here, we know that condition is that the element needs to be numeric. Let’s try again with <code>map_if()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_if</span>(mixed_list, is.numeric, add_ten)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] "happy"
+
+[[2]]
+[1] 12
+
+[[3]]
+[1] 14.39</code></pre>
+</div>
+</div>
+<p>Alright! We see it skipped over “happy”, preserving it as is, and added ten to the two numeric elements.</p>
+</section>
+<section id="every-and-some" class="level4">
+<h4 class="anchored" data-anchor-id="every-and-some">every() and some()</h4>
+<p>Sometimes you have a giant list and want to know whether each element meets a condition, like being numeric. You can use <code>every()</code>, which will check if every element of a list satisfies a predicate function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">every</span>(mixed_list, is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Since “happy” is the first element of <code>mixed_list</code>, it doesn’t past the test.</p>
+<p>If we want to be less strict and just check if <strong>some</strong> of the elements satisfies a predicate function, we can use <code>some()</code> instead:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">some</span>(mixed_list, is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>In this case, since some elements of <code>mixed_list</code> were numeric, we got <code>TRUE</code>.</p>
+</section>
+</section>
+<section id="modifying-functions" class="level3">
+<h3 class="anchored" data-anchor-id="modifying-functions">Modifying functions</h3>
+<p><code>purrr</code> includes <strong>adverbs</strong> - functions that take a function and return a modified version (just as an adverb modifies a verb). Let’s check out a few!</p>
+<section id="negate" class="level4">
+<h4 class="anchored" data-anchor-id="negate">negate()</h4>
+<p><code>negate()</code> … negates a predicate function (aren’t the <code>purrr</code> function names great?). For example, let’s say you want to check which elements of a list were not null. This is how you would do it with <code>map_lgl</code> (which returns a logical vector rather than a list):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"a"</span>, <span class="dv">3</span>, <span class="dv">22</span>, <span class="cn">NULL</span>, <span class="st">"q"</span>, <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_lgl</span>(lst, <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.null</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+</div>
+<p>This works, but it’s not super easy to read. Instead, we can make an <code>is_not_null()</code> function using <code>negate()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>is_not_null <span class="ot">&lt;-</span> <span class="fu">negate</span>(is.null)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map_lgl</span>(lst, is_not_null)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+</div>
+<p>Voila!</p>
+</section>
+<section id="partial" class="level4">
+<h4 class="anchored" data-anchor-id="partial">partial()</h4>
+<p>You probably have a couple functions where you almost always use an extra argument, like <code>mean()</code> with <code>na.rm = TRUE</code> or <code>round()</code> with <code>digits = 1</code>. You can use <code>partial()</code> to create a new function where those are always specified, saving you some repetitive typing!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.333333</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>my_mean <span class="ot">&lt;-</span> <span class="fu">partial</span>(mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">my_mean</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">5</span>, <span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.333333</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>my_round <span class="ot">&lt;-</span> <span class="fu">partial</span>(round, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">my_round</span>(<span class="fl">10.484</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.5</code></pre>
+</div>
+</div>
+</section>
+<section id="safely-and-possibly" class="level4">
+<h4 class="anchored" data-anchor-id="safely-and-possibly">safely() and possibly()</h4>
+<p>We saw earlier that <code>map_if()</code> could be used where we have a condition we want to be met before applying a function. In our case, we used it to avoid an error, but you could also use it to meet a condition like the number being negative or greater than a threshold. But what if you don’t know where errors could come from but want to handle them? This is where <code>safely()</code> and <code>possibly()</code> come in.</p>
+<p>If you’re not interested in what the error is, you should use <code>possibly()</code>. In addition to the function it’s wrapping around, you need to specify the argument <code>otherwise</code>, which is what you want to return if there is an error. Let’s take a look:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>possibly_add_ten <span class="ot">&lt;-</span> <span class="fu">possibly</span>(add_ten, <span class="at">otherwise =</span> <span class="st">"I'm not numeric!"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(mixed_list, possibly_add_ten)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] "I'm not numeric!"
+
+[[2]]
+[1] 12
+
+[[3]]
+[1] 14.39</code></pre>
+</div>
+</div>
+<p>Side-note - I find the the double-brackets confusing. We’ve got them since our list isn’t named. Let’s set the name of each element with <code>purrr's</code> <code>set_names()</code>, giving our elements the very creative names <code>a</code>, <code>b</code>, and <code>c</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mixed_list <span class="ot">&lt;-</span> <span class="fu">set_names</span>(mixed_list, <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>mixed_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$a
+[1] "happy"
+
+$b
+[1] 2
+
+$c
+[1] 4.39</code></pre>
+</div>
+</div>
+<p>Well … mildly easier to read at least.</p>
+<p>On the other hand, sometimes you do want to know what the error is. If that’s the case, you can use <code>safely()</code> instead:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(mixed_list, <span class="fu">safely</span>(add_ten))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$a
+$a$result
+NULL
+
+$a$error
+&lt;simpleError in n + 10: non-numeric argument to binary operator&gt;
+
+
+$b
+$b$result
+[1] 12
+
+$b$error
+NULL
+
+
+$c
+$c$result
+[1] 14.39
+
+$c$error
+NULL</code></pre>
+</div>
+</div>
+<p><code>safely()</code> returns a list of lists. Each element from the original list has two entries: <code>result</code> and <code>error</code>. One is always <code>NULL</code> - if there was an error, <code>result</code> is <code>NULL</code> and <code>error</code> is the error message; if there wasn’t an error, the <code>result</code> is the result and <code>error</code> is <code>NULL</code>. If you want to get back all the errors or results, you can use another handy feature of <code>map()</code>. If you give <code>map()</code> a string as the second argument, for each element of the list, it will return the element inside of it with that name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>safely_add_ten <span class="ot">&lt;-</span> <span class="fu">safely</span>(add_ten)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>mixed_list <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(safely_add_ten) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="st">"error"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$a
+&lt;simpleError in n + 10: non-numeric argument to binary operator&gt;
+
+$b
+NULL
+
+$c
+NULL</code></pre>
+</div>
+</div>
+<p>Ah, no more list of lists. That was scary. I promise I won’t do it again.</p>
+</section>
+<section id="compact" class="level4">
+<h4 class="anchored" data-anchor-id="compact">compact()</h4>
+<p>In the previous example, we probably wouldn’t be interested in the instances where errors were <code>NULL</code>. We could use <code>discard(is.null)</code>, but <code>purrr</code> actually provides a function just for the purpose of getting rid of <code>NULL</code>s: <code>compact()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>mixed_list <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(safely_add_ten) <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="st">"error"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compact</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$a
+&lt;simpleError in n + 10: non-numeric argument to binary operator&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="compose" class="level4">
+<h4 class="anchored" data-anchor-id="compose">compose()</h4>
+<p><code>compose()</code> lets you string together multiple functions. Let’s say you want to <code>add_ten()</code>, take the log, and then round a vector of numbers. You could do either of these:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_ten</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">log</span>(<span class="fu">add_ten</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">500</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 6</code></pre>
+</div>
+</div>
+<p>But you could also make a new function using <code>compose()</code>. You give <code>compose()</code> functions to execute in order from <em>right to left</em> (just like we have written above):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>add_ten_log_and_round <span class="ot">&lt;-</span> <span class="fu">compose</span>(round, log, add_ten)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">add_ten_log_and_round</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 6</code></pre>
+</div>
+</div>
+<p><code>compose()</code> is great for simplifying your code if you’re going to use a sequence of functions again and again.</p>
+<p>What if we wanted to round to the nearest tenth instead? You can combine <code>compose()</code> with <code>partial()</code>!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>round_tenth <span class="ot">&lt;-</span> <span class="fu">partial</span>(round, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>add_ten_log_and_round_tenth <span class="ot">&lt;-</span> <span class="fu">compose</span>(round_tenth, log, add_ten)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_ten_log_and_round_tenth</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.4 3.4 6.2</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>There’s so much to learn in the wonderful world of <code>purrr</code>! I’m a big believer that just knowing something exists gets you a lot of the way there. Maybe you can’t think of a use for <code>partial()</code> right now, but you’ll run into a problem a few months down the line where it would be handy. You don’t need to remember the exact syntax; all you need to know is what to Google for and that you don’t need to spend hours trying to find some other solution or resign yourself to writing repetitive code.</p>
+<p>One thing I didn’t show in this post was how all of these functions can fit together in an analysis. For that, I’ll recommend <a href="(https://www.datacamp.com/courses/intermediate-functional-programming-with-purrr)">Colin’s course</a> again. He also has a series of six blog posts illustrating different <code>purrr</code> functions, including some I didn’t cover here; <a href="https://colinfay.me/tags/#purrr">check them out</a>!</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Now, this is a bit of a silly example. Because <code>round()</code> is vectorized (it works not just on a single value but a vector of them), you could have just done this instead:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(my_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 5</code></pre>
+</div>
+</div>
+<p>This won’t work, however, if your input is a list instead of a vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vec_as_list <span class="ot">&lt;-</span> <span class="fu">list</span>(my_vector)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(vec_as_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in round(vec_as_list): non-numeric argument to mathematical function</code></pre>
+</div>
+</div>
+<p>But <code>map()</code> still will:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(vec_as_list, round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1 2 3 5</code></pre>
+</div>
+</div>
+<p>Generally, you don’t need <code>map</code> when you’re working with a simple vector and a vectorized function. <code>map</code> shines where you either a) have a non-vectorized function or b) a more complicated data structure (including a list).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

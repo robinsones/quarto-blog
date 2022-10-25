@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emily Robinson">
+<meta name="dcterms.date" content="2019-08-20">
+<meta name="description" content="Finding the best Pokémon type combinations for a maximally effective team.">
+
+<title>Hooked on Data - What Types Should You Have on Your Pokémon Team? Efficient Simulation with Matrices in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hooked on Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../speaking.html">
+ <span class="menu-text">Speaking</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robinsones"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/robinson_es"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">What Types Should You Have on Your Pokémon Team? Efficient Simulation with Matrices in R</h1>
+                  <div>
+        <div class="description">
+          Finding the best Pokémon type combinations for a maximally effective team.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Code</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Emily Robinson </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 20, 2019</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link active" data-scroll-target="#data-exploration">Data Exploration</a></li>
+  <li><a href="#building-pokémon-teams" id="toc-building-pokémon-teams" class="nav-link" data-scroll-target="#building-pokémon-teams">Building Pokémon Teams</a></li>
+  <li><a href="#matrix-magic" id="toc-matrix-magic" class="nav-link" data-scroll-target="#matrix-magic">Matrix Magic</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>I recently started playing Pokémon again - <a href="https://www.amazon.com/Pokémon-Lets-Go-Eevee-Switch/dp/B01N7RE3HB">“Pokémon Let’s Go Eevee”</a> on the Nintendo Switch to be specific. In the classic Pokémon games, you have a team of 6 Pokémon that you use to battle against other trainers. In battles, type match-ups are very important, as some types of moves are “super effective” against other types. For example, fire moves are super effective against grass Pokémon, which means they do double the damage they normally would. If you can set your team up so that you’re always optimally matched, you’re going to have a much easier time.</p>
+<p>But there are 18 types and you only get 6 Pokémon on your team. This leads to the question - what are the combinations of 6 types that make you super effective against the most types of Pokémon?<sup>1</sup> It turns out this is a question <a href="https://www.google.com/search?q=what+Pokémon+team+will+make+you+super+effetive+against+everything&amp;oq=what+Pokémon+team+will+make+you+super+effetive+against+everything&amp;aqs=chrome..69i57.6074j0j7&amp;sourceid=chrome&amp;ie=UTF-8">a lot of people have asked</a>.</p>
+<p>I knew there was a chart out there that matches up every attacking type against every defending and tells you whether they’re super effective, normal, not very effective, or doesn’t have any effect. So I decided to use my R skills to answer this question (many thanks to my brother <a href="http://varianceexplained.org/">David Robinson</a> for his guidance at various points). Along the way, we’ll do a quick exploratory analysis, learn about combinatorials, and leave the tidyverse to use matrices and some base functions.</p>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
+<p>I found a csv of the Pokémon type chart on GitHub. Using <code>read_csv()</code> on the url didn’t work, and rather than try to debug it, I decided to “cheat”” and use the magic package <a href="https://github.com/MilesMcBain/datapasta"><code>datapasta</code> package</a>. On Github, I clicked to edit the file, copied everything in it, and then used <code>tribble_paste()</code>, which output my clipboard into the code that would create a tibble I called <code>type_comparisons</code>.</p>
+<p>[Added 8/26]: As <a href="https://twitter.com/jimhester_">Jim Hester</a> kindly pointed out, <code>read_csv()</code> will work if I use it on the raw link, generated by clicking the “Raw” button.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this didn't work</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># type_comparisons &lt;- read_csv("https://github.com/robinsones/pokemon-chart/blob/master/chart.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datapasta)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use tribble_paste()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>type_comparisons <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>     <span class="sc">~</span>Attacking, <span class="sc">~</span>Normal, <span class="sc">~</span>Fire, <span class="sc">~</span>Water, <span class="sc">~</span>Electric, <span class="sc">~</span>Grass, <span class="sc">~</span>Ice, <span class="sc">~</span>Fighting, <span class="sc">~</span>Poison, <span class="sc">~</span>Ground, <span class="sc">~</span>Flying, <span class="sc">~</span>Psychic, <span class="sc">~</span>Bug, <span class="sc">~</span>Rock, <span class="sc">~</span>Ghost, <span class="sc">~</span>Dragon, <span class="sc">~</span>Dark, <span class="sc">~</span>Steel, <span class="sc">~</span>Fairy,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Normal"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">0</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fire"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,    <span class="fl">0.5</span>,         <span class="dv">1</span>,      <span class="dv">2</span>,    <span class="dv">2</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">2</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,     <span class="fl">0.5</span>,     <span class="dv">1</span>,      <span class="dv">2</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Water"</span>,       <span class="dv">1</span>,     <span class="dv">2</span>,    <span class="fl">0.5</span>,         <span class="dv">1</span>,    <span class="fl">0.5</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">2</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,     <span class="fl">0.5</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Electric"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">2</span>,       <span class="fl">0.5</span>,    <span class="fl">0.5</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">0</span>,       <span class="dv">2</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,     <span class="fl">0.5</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Grass"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">2</span>,         <span class="dv">1</span>,    <span class="fl">0.5</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,     <span class="fl">0.5</span>,       <span class="dv">2</span>,     <span class="fl">0.5</span>,        <span class="dv">1</span>,  <span class="fl">0.5</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,     <span class="fl">0.5</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Ice"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,    <span class="fl">0.5</span>,         <span class="dv">1</span>,      <span class="dv">2</span>,  <span class="fl">0.5</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">2</span>,       <span class="dv">2</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="dv">2</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Fighting"</span>,       <span class="dv">2</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">2</span>,         <span class="dv">1</span>,     <span class="fl">0.5</span>,       <span class="dv">1</span>,     <span class="fl">0.5</span>,      <span class="fl">0.5</span>,  <span class="fl">0.5</span>,     <span class="dv">2</span>,      <span class="dv">0</span>,       <span class="dv">1</span>,     <span class="dv">2</span>,      <span class="dv">2</span>,    <span class="fl">0.5</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Poison"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">2</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,     <span class="fl">0.5</span>,     <span class="fl">0.5</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,   <span class="fl">0.5</span>,    <span class="fl">0.5</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">0</span>,      <span class="dv">2</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Ground"</span>,       <span class="dv">1</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,         <span class="dv">2</span>,    <span class="fl">0.5</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">2</span>,       <span class="dv">1</span>,       <span class="dv">0</span>,        <span class="dv">1</span>,  <span class="fl">0.5</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">2</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Flying"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="fl">0.5</span>,      <span class="dv">2</span>,    <span class="dv">1</span>,         <span class="dv">2</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">2</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Psychic"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,         <span class="dv">2</span>,       <span class="dv">2</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,      <span class="fl">0.5</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="dv">1</span>,     <span class="dv">0</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Bug"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">2</span>,    <span class="dv">1</span>,       <span class="fl">0.5</span>,     <span class="fl">0.5</span>,       <span class="dv">1</span>,     <span class="fl">0.5</span>,        <span class="dv">2</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,       <span class="dv">1</span>,     <span class="dv">2</span>,    <span class="fl">0.5</span>,    <span class="fl">0.5</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Rock"</span>,       <span class="dv">1</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">2</span>,       <span class="fl">0.5</span>,       <span class="dv">1</span>,     <span class="fl">0.5</span>,       <span class="dv">2</span>,        <span class="dv">1</span>,    <span class="dv">2</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ghost"</span>,       <span class="dv">0</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">2</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">2</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,      <span class="dv">1</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>       <span class="st">"Dragon"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="dv">2</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">0</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Dark"</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,       <span class="fl">0.5</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">2</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">2</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,    <span class="fl">0.5</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Steel"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,    <span class="fl">0.5</span>,       <span class="fl">0.5</span>,      <span class="dv">1</span>,    <span class="dv">2</span>,         <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">2</span>,      <span class="dv">1</span>,       <span class="dv">1</span>,     <span class="dv">1</span>,    <span class="fl">0.5</span>,      <span class="dv">2</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fairy"</span>,       <span class="dv">1</span>,   <span class="fl">0.5</span>,      <span class="dv">1</span>,         <span class="dv">1</span>,      <span class="dv">1</span>,    <span class="dv">1</span>,         <span class="dv">2</span>,     <span class="fl">0.5</span>,       <span class="dv">1</span>,       <span class="dv">1</span>,        <span class="dv">1</span>,    <span class="dv">1</span>,     <span class="dv">1</span>,      <span class="dv">1</span>,       <span class="dv">2</span>,     <span class="dv">2</span>,    <span class="fl">0.5</span>,      <span class="dv">1</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To make it easier to explore the data, I’m going to start by tidying it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tidied_comparison <span class="ot">&lt;-</span> type_comparisons <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(Defending, outcome, <span class="sc">-</span>Attacking)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tidied_comparison <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">103</span><span class="sc">:</span><span class="dv">109</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attacking</th>
+<th style="text-align: left;">Defending</th>
+<th style="text-align: right;">outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Rock</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ghost</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dragon</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dark</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Steel</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fairy</td>
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We now have a dataset of 324 rows, with each Attacking-Defending combination and what the outcome is. Here, outcome is 2 if it’s super effective (what we’re interested in), 1 if normal, .5 if not very effective, and 0 if no effect.</p>
+<p>What types are super effective against the most other types?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tidied_comparison <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Attacking) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nb_super_effective =</span> <span class="fu">sum</span>(<span class="fu">ifelse</span>(outcome <span class="sc">==</span> <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(nb_super_effective)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attacking</th>
+<th style="text-align: right;">nb_super_effective</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ground</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fire</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rock</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bug</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fairy</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Flying</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Grass</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Steel</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dark</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ghost</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poison</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Psychic</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dragon</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Normal</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Fighting and Ground are both super effective against 5 different types, while Normal isn’t super effective against any.</p>
+<p>Are there any types where only one Attacking type is super-effective?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tidied_comparison <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outcome <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_count</span>(Defending) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attacking</th>
+<th style="text-align: left;">Defending</th>
+<th style="text-align: right;">outcome</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ground</td>
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grass</td>
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Yes - if we want to be super effective against Normal and Electric types, we need Fighting and Ground types respectively.</p>
+</section>
+<section id="building-pokémon-teams" class="level2">
+<h2 class="anchored" data-anchor-id="building-pokémon-teams">Building Pokémon Teams</h2>
+<p>The first step is to build out all the hypothetical teams of 6. If you remember your introduction to statistics days, this is a combinatorial problem: we have 18 options (although we don’t expect “Normal” to show up since it’s not super effective against anything), need to choose 6, and the order doesn’t matter (e.g.&nbsp;1 to 6 is the same as 6 to 1). We can do this in R with the function <code>combn</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>all_combinations <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="dv">18</span>, <span class="dv">6</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(all_combinations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]     6 18564</code></pre>
+</div>
+</div>
+<p><code>all_combinations</code> is a 6 by 18,564 matrix: each column is a different combination of types. For example, let’s look at the first two columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>all_combinations[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    1
+[2,]    2    2
+[3,]    3    3
+[4,]    4    4
+[5,]    5    5
+[6,]    6    7</code></pre>
+</div>
+</div>
+<p>The first column is one team with the types 1 through 6, while the second is a team with 1 through 5 and 7.</p>
+<p>Now we need to take this and understand how many types each team is super effective against.</p>
+</section>
+<section id="matrix-magic" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-magic">Matrix Magic</h2>
+<p>I originally was thinking of calling this post “Going back to the Base[ics],” since I’m moving out of the tidyverse and into the world of matrices, but there’s really nothing basic about this. Let’s walk through it step by step.</p>
+<p>First, we’re going to take our table and make it a matrix. We can’t just do <code>as.matrix()</code> directly, as it will make the Attacking column the first column, while we want that to be the rownames, so we’ll do it in two steps.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(type_comparisons[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(m) <span class="ot">&lt;-</span> type_comparisons<span class="sc">$</span>Attacking</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, because we only care about whether the entry is 2 or not, we’ll change every entry that’s a 2 to be 1 and every entry that’s not to be 0 (the <code>1L *</code> makes it 1 or 0 instead of TRUE or FALSE).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>super_effective_m <span class="ot">&lt;-</span> (m <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">*</span> 1L</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>super_effective_m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Normal Fire Water Electric Grass Ice Fighting Poison Ground Flying
+Normal        0    0     0        0     0   0        0      0      0      0
+Fire          0    0     0        0     1   1        0      0      0      0
+Water         0    1     0        0     0   0        0      0      1      0
+Electric      0    0     1        0     0   0        0      0      0      1
+Grass         0    0     1        0     0   0        0      0      1      0
+Ice           0    0     0        0     1   0        0      0      1      1
+Fighting      1    0     0        0     0   1        0      0      0      0
+Poison        0    0     0        0     1   0        0      0      0      0
+Ground        0    1     0        1     0   0        0      1      0      0
+Flying        0    0     0        0     1   0        1      0      0      0
+Psychic       0    0     0        0     0   0        1      1      0      0
+Bug           0    0     0        0     1   0        0      0      0      0
+Rock          0    1     0        0     0   1        0      0      0      1
+Ghost         0    0     0        0     0   0        0      0      0      0
+Dragon        0    0     0        0     0   0        0      0      0      0
+Dark          0    0     0        0     0   0        0      0      0      0
+Steel         0    0     0        0     0   1        0      0      0      0
+Fairy         0    0     0        0     0   0        1      0      0      0
+         Psychic Bug Rock Ghost Dragon Dark Steel Fairy
+Normal         0   0    0     0      0    0     0     0
+Fire           0   1    0     0      0    0     1     0
+Water          0   0    1     0      0    0     0     0
+Electric       0   0    0     0      0    0     0     0
+Grass          0   0    1     0      0    0     0     0
+Ice            0   0    0     0      1    0     0     0
+Fighting       0   0    1     0      0    1     1     0
+Poison         0   0    0     0      0    0     0     1
+Ground         0   0    1     0      0    0     1     0
+Flying         0   1    0     0      0    0     0     0
+Psychic        0   0    0     0      0    0     0     0
+Bug            1   0    0     0      0    1     0     0
+Rock           0   1    0     0      0    0     0     0
+Ghost          1   0    0     1      0    0     0     0
+Dragon         0   0    0     0      1    0     0     0
+Dark           1   0    0     1      0    0     0     0
+Steel          0   0    1     0      0    0     0     1
+Fairy          0   0    0     0      1    1     0     0</code></pre>
+</div>
+</div>
+<p>The <code>all_combinations</code> matrix we created before is essentially a set of indices for the <code>super_effective_m</code> matrix. For example, column 1 of <code>all_combinations</code> are the numbers 1 through 6, which means we want to get rows 1 through 6 of <code>super_effective_m</code>. Remember, each row of <code>super_effective_m</code> is an attacking type on our team, and each column is a defending type. We then want to get the sum of each column and know how many columns have a sum of more than 0, meaning at least one of our attacking types was super effective against it. We’ll make a function, <code>super_effective_nb</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>super_effective_nb <span class="ot">&lt;-</span> <span class="cf">function</span>(indices) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">colSums</span>(super_effective_m[indices, ]) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can use <code>apply()</code> to get a vector, for all 18k+ teams, of how many types they’re super effective against. If you’re not familiar with <code>apply()</code>, the first argument is what we’re applying our function to, the second is whether it should apply to the rows or columns (we choose 2 for column, since each column is the team), and the third is the function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>super_effective_results <span class="ot">&lt;-</span> <span class="fu">apply</span>(all_combinations, <span class="dv">2</span>, super_effective_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What are the combinations that are super effective against the maximum number of types possible?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(super_effective_results <span class="sc">==</span> <span class="fu">max</span>(super_effective_results))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 14323 14325 15610 15612 16454 16459 16852 16854 16989 16994</code></pre>
+</div>
+</div>
+<p>We see there are 10 possible combinations of six types. Let’s take a look at them by getting those columns from <code>all_combinations</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>best_combos <span class="ot">&lt;-</span> all_combinations[, super_effective_results <span class="sc">==</span> <span class="fu">max</span>(super_effective_results)]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>best_combos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]    4    4    5    5    5    5    6    6    6     6
+[2,]    6    6    6    6    8    8    7    7    7     7
+[3,]    7    7    7    7    9    9    8    8    9     9
+[4,]    9    9    9    9   13   13    9    9   10    10
+[5,]   10   10   10   10   14   16   10   10   14    16
+[6,]   14   16   14   16   18   18   14   16   17    17</code></pre>
+</div>
+</div>
+<p>We now have a matrix, <code>best_combo</code>, where each column is a team. For example, we see a team of types 4, 6, 7, 9, 10, and 14 cover the maximum number of defending types. But what is type 4? To answer that, we take the row names from <code>super_effective_m</code> and index it by <code>best_combos</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(super_effective_m)[best_combos]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Electric" "Ice"      "Fighting" "Ground"   "Flying"   "Ghost"   
+ [7] "Electric" "Ice"      "Fighting" "Ground"   "Flying"   "Dark"    
+[13] "Grass"    "Ice"      "Fighting" "Ground"   "Flying"   "Ghost"   
+[19] "Grass"    "Ice"      "Fighting" "Ground"   "Flying"   "Dark"    
+[25] "Grass"    "Poison"   "Ground"   "Rock"     "Ghost"    "Fairy"   
+[31] "Grass"    "Poison"   "Ground"   "Rock"     "Dark"     "Fairy"   
+[37] "Ice"      "Fighting" "Poison"   "Ground"   "Flying"   "Ghost"   
+[43] "Ice"      "Fighting" "Poison"   "Ground"   "Flying"   "Dark"    
+[49] "Ice"      "Fighting" "Ground"   "Flying"   "Ghost"    "Steel"   
+[55] "Ice"      "Fighting" "Ground"   "Flying"   "Dark"     "Steel"   </code></pre>
+</div>
+</div>
+<p>This gets us a character vector though. It’s in order, so we know that the first six is team 1, the second six team 2, etc., but it’s not displayed very well. We can use <code>matrix</code> to turn this into a matrix instead, specifying that we want 6 rows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>strongest_teams <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rownames</span>(super_effective_m)[best_combos], <span class="at">nrow =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>strongest_teams</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]       [,2]       [,3]       [,4]       [,5]     [,6]     [,7]      
+[1,] "Electric" "Electric" "Grass"    "Grass"    "Grass"  "Grass"  "Ice"     
+[2,] "Ice"      "Ice"      "Ice"      "Ice"      "Poison" "Poison" "Fighting"
+[3,] "Fighting" "Fighting" "Fighting" "Fighting" "Ground" "Ground" "Poison"  
+[4,] "Ground"   "Ground"   "Ground"   "Ground"   "Rock"   "Rock"   "Ground"  
+[5,] "Flying"   "Flying"   "Flying"   "Flying"   "Ghost"  "Dark"   "Flying"  
+[6,] "Ghost"    "Dark"     "Ghost"    "Dark"     "Fairy"  "Fairy"  "Ghost"   
+     [,8]       [,9]       [,10]     
+[1,] "Ice"      "Ice"      "Ice"     
+[2,] "Fighting" "Fighting" "Fighting"
+[3,] "Poison"   "Ground"   "Ground"  
+[4,] "Ground"   "Flying"   "Flying"  
+[5,] "Flying"   "Ghost"    "Dark"    
+[6,] "Dark"     "Steel"    "Steel"   </code></pre>
+</div>
+</div>
+<p>For our final step, we’re actually going to make this a tibble, so I can look at which types appear the most often across the different team possibilities.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>strongest_teams <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(team, type) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(type, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ground</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fighting</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Flying</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ice</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dark</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ghost</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Grass</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Poison</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fairy</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rock</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Steel</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We see all 10 of the teams need a ground type, where 8 have a Fighting, Flying, or Ice type. On the other hand, Electric, Fairy, Rock, and Steel are only each used by two teams.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>While this is a bit of a silly use case, the code we walked through and lessons learned could be applied to a lot of different projects. When I advise people to make a portfolio of data science projects if they’re looking for a job, I sometimes get asked, “But how do I find something to work on?” I recommend looking in your own life and interests where you could use data science. If you’re a runner and use an activity tracker, graph how your run distances and times are related to the weather. If you’re active on a subreddit, you could use the reddit API to get the last 500 posts and do a text analysis. The possibilities are limitless!</p>
+<p>I also played around with getting this code even faster and trying to do everything in a tidy way instead. Including those methods made the post run a little too long, so I may follow up with a part 2 of this post. To make this analysis more useful, I could also take into account how common types are - for example, only a few Pokémon have a Dragon type, so it’s less important to have types that are super effective against Dragon.</p>
+<p>[1] Pokémon players will know that you can have more than 6 types on your team, both because some Pokémon have two types and because Pokémon can learn moves of other types (e.g.&nbsp;a Normal type Pokémon may be able to learn a Dark move). But for the purposes of this analysis I simplified it.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
