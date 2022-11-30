@@ -67,23 +67,28 @@ The other big advantage of seaborn is that seaborn has some built-in plots that 
 Making plots in seaborn also generally matches your intuition for what the syntax would be. For example, to make a barchart with confidence intervals, you can run the following code (having loaded the tips dataset with `tips = sns.load_dataset("tips")`):
 
 ```{python}
-#| eval: false
-barplot = sns.barplot(x = "day", y = "total_bill", data = tips, order = ["Thur", "Fri", "Sat", "Sun"])
-barplot.set(xlabel = "Day", ylabel = "Average Total Bill", title = "Total Bill by Day")
+#| echo: false
+import matplotlib.pyplot as plt
+import seaborn as sns
+tips = sns.load_dataset("tips")
 ```
-![](/img/pretty_bar_chart.png)
+
+```{python}
+barplot = sns.barplot(x = "day", y = "total_bill", data = tips, order = ["Thur", "Fri", "Sat", "Sun"])
+ticks = barplot.set(xlabel = "Day", ylabel = "Average Total Bill", title = "Total Bill by Day")
+```
 
 Meanwhile, in matplotlib you actually have to create a new dataset with your means (and standard deviations if you want confidence intervals). Matplotlib also won't accept categorical variables as the variable for the x-axis, so you have to first make the bar chart with numbers as the x-axis, then change the tick-marks on the x-axis back to your original categories. You also have to write three lines instead of one for changing the x-label, y-label, and title. Here's the code for making the graph in matplotlib, which doesn't even include re-ordering the x-axis or the confidence intervals:
+
 ```{python}
-#| eval: false
-total_bill_by_day = tips.groupby("day").mean()
-ax = plt.bar([1, 2, 3, 4], total_bill_by_day["total_bill"], align = "cter")
+total_bill_by_day = tips.groupby("day").mean(numeric_only=True)
+ax = plt.bar([1, 2, 3, 4], total_bill_by_day["total_bill"], align = "center")
 plt.xticks([1, 2, 3, 4], total_bill_by_day.index)
 plt.xlabel("Day")
 plt.ylabel("Average Total Bill")
 plt.title("Total Bill by Day")
+plt.show()
 ```
-![](/img/ugly_bar_chart.png)
 
 This is far from an unusual case. While seaborn certainly does not have its own plots for everything, it has a lot of the ones you'd typically use for exploratory purposes.
 
