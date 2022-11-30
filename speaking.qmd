@@ -43,7 +43,11 @@ September 2017, Demystifying Data Science Conference by Metis. [Recording](https
 
 July 2017, New York Open Statistical Programming Meetup. [Recording](https://www.youtube.com/watch?v=SF-ryGgLOgQ), [Slides](https://github.com/robinsones/AB-Testing-Slides/blob/master/AB%20Testing%20in%20the%20Wild.pdf). 
 
-## Programming in R
+## Programming in R and Python
+
+#### Don't Let the Snake Bite: Integrating Python with your R Workflow
+
+November 2022, Keynote at XII Conference of R Users, Spain. [Slides](https://rpubs.com/robinson_es/python_with_r).
 
 #### A UseR's Introduction to Machine Learning in AWS
 
