@@ -33,8 +33,6 @@ October 2018, [PyData NYC](https://pydata.org/nyc2018/).
 
 October 2018, [Taiwanese Data Professionals](https://www.meetup.com/Taiwanese-Data-Professionals/events/vdgkdqyxnbjc/).
 
-February 2018, Data Science and Online Experiments at Etsy on the DataFramed podcast. [Recording](https://soundcloud.com/dataframed/9-data-science-and-online-experiments-at-etsy). 
-
 ####  A/B Testing in the Wild
 
 October 2017, West Point Academy. [Slides](https://github.com/robinsones/AB-Testing-Slides/blob/master/AB%20Testing%20in%20the%20Wild.pdf).
