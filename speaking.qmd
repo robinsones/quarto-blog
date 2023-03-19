@@ -81,6 +81,10 @@ January 2018, Data Day Texas Conference. [Slides](https://github.com/robinsones/
 
 ## Data Science Career Advice
 
+#### Which Comes First: the Model or the Stakeholder Commitment to Deploy It?
+
+February 2023, Data Mishaps Night. 
+
 #### Build a Career in Data Science 
 
 August 2020, Grace Hoppers Celebration Scholars meetup. 
