@@ -111,6 +111,8 @@ June 2019, [Data Matters](https://skillsmatter.com/meetups/11783-keynote-evening
 
 ## Podcasts
 
+November 2022, Build a Career in Data Science on Open Data Science. [Recording](https://www.youtube.com/watch?v=57Q8v0XyOko&t=1s). 
+
 November 2020, Building a Career in Data Science on Chai Data Science. [Recording](https://www.youtube.com/watch?v=-OSWCeo18vs&feature=youtu.be). 
 
 October 2020, Build a Career in Data Science on The Artists of Data Science . [Recording](https://theartistsofdatascience.fireside.fm/jacqueline-nolis-emily-robinson). 
