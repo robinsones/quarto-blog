@@ -1,0 +1,59 @@
+---
+title: Recommended Resources for Starting A/B Testing
+date: '2023-04-20'
+slug: resources-starting-ab-testing
+categories: [A/B Testing]
+description: Starter kits of resources for product teams and data teams get started with A/B testing. 
+image: "/img/books-extra-unsplash.jpg"
+---
+
+*This post was co-written with [Eddie Wharton](https://eddiewharton.com).*
+
+A/B tests are a powerful tool used by thousands of companies, from small start-ups to tech giants to [companies founded in the 1850s](https://open.nytimes.com/how-we-rearchitected-mobile-a-b-testing-at-the-new-york-times-78eb428d9132). While they sound simple in theory, remember that [“getting numbers is easy, getting numbers you can trust is hard!”](https://hbr.org/2017/09/the-surprising-power-of-online-experiments) Mistakes can be costly - we’ve caught and fixed multi-million dollar issues. To make A/B testing useful, you need to design the experiment well, check data trustworthiness, run some statistics, oversee an experimentation platform, and effectively communicate results. With so many moving parts, it’s best to learn from others. After over a decade of combined experience building and running A/B testing systems at various companies and teaching experimentation best practices, we wanted to share our favorite resources for getting started with A/B testing.  
+
+*“Only a fool learns from their own mistakes. The wise person learns from the mistakes of others.” -Otto Von Bismark*
+
+There is a wealth of public material on A/B Testing, from blog posts to academic papers to talks to courses. But that same abundance can be overwhelming and make it hard for someone new to experimentation to know where to start. We’ve put together these two starter kits – one for product teams and one for data teams – to help. We also created an accompanying [GitHub page](https://github.com/ewharton/ab-testing-resources) with even more resources, including advanced topics. We hope these will get you up-and-running quickly and avoid many of the common A/B testing pitfalls. If there’s a resource you love that we haven’t included in our GitHub page, please file an issue or submit a pull request to add it!
+
+## Product Team Starter Kit
+
+This starter kit is an action-oriented guide of short, to-the-point resources meant for members of a product team–Analysts, Product Managers, Designers, Engineers, etc. If you’re going to be the primary person responsible for running and analyzing experiments, or you’re curious and want to dive deeper, check out the Data Team Starter Kit. 
+
+### Experimentation Introduction and Best Practices
+
+* [Data Driven Products Now!](https://datadriven.club/) by Dan McKinley. An introduction on how to prioritize experiments using opportunity sizing. 
+* [Four Principles for Making Experiments Work](https://medium.com/airbnb-engineering/4-principles-for-making-experimentation-count-7a5f1a5268a) by Lindsay Pettingill. Straight forward but powerful best practices, illustrated through real experiments from Airbnb.
+* [Guidelines for A/B Testing](https://hookedondata.org/guidelines-for-a-b-testing/) by Emily Robinson. Helpful advice to avoid common pitfalls, especially when starting. (Eddie insisted we add this.)
+* [Designing Experimentation Metrics](https://exp-platform.com/Documents/2017-08%20ABTutorial/ABTutorial_5_designingMetrics.pptx) by Pavel Dmitriev. How to design and use different types of metrics with examples. (Warning: PowerPoint deck.)
+
+### Statistics for Experiments
+
+* [The third Ghost of Experimentation: Multiple comparisons](https://towardsdatascience.com/the-third-ghost-of-experimentation-multiple-comparisons-65af360169a1) by Lizzie Eardley. Why looking at multiple metrics and segments can cause problems and three practical solutions. 
+* [The fourth Ghost of Experimentation: Peeking](https://medium.com/@SkyscannerEng/the-fourth-ghost-of-experimentation-peeking-b33890dcd3de) by Lizzie Eardley. The issue with checking your experiment results multiple times and how to do so safely. 
+* [From Power Calculations to P-Values: A/B Testing at StackOverflow](https://juliasilge.com/blog/ab-testing/) by Julia Silge. An introduction to power and p-values, with an accompanying [simple power calculator. ](http://www.experimentcalculator.com/)
+
+## Data Team Starter Kit
+
+If you're a data team members (Analysts, Data Scientists, Data Engineers and Data Execs), we recommend reading the Product Team Starter Kit first and then coming here. For an in-depth guide to A/B Testing, we highly recommend the book, [Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing](https://bookshop.org/p/books/trustworthy-online-controlled-experiments-a-practical-guide-to-a-b-testing-ron-kohavi/7675379?ean=9781108724265) by Ron Kohavi, Diane Tang, and Ya Xu. The resources below are mostly papers and can be dense, so it’s okay if you don’t understand everything or end up skimming. Their main purpose is to give you an overview so that you can uncover blind spots and know key terms if you decide to go deeper.
+
+### Designing Experiments 
+
+* [A Dirty Dozen: Twelve Common Metric Interpretation Pitfalls in Online Controlled Experiments](https://exp-platform.com/Documents/2017-08%20KDDMetricInterpretationPitfalls.pdf) by Pavel Dmitriev et al. A guide to detecting and avoiding experimentation pitfalls, each illustrated with a puzzling example from a real experiment. 
+* [Top Challenges from the first Practical Online Controlled Experiments Summit](https://assets.amazon.science/aa/77/f51fed7541779e7844c64933799e/top-challenges-from-the-first-practical-online-controlled-experiments-summit.pdf) by many contributors from Microsoft, LinkedIn, Netflix, Google, and more. Primer on widespread challenges and current best solutions. Learn keywords and concepts so you can find other resources on relevant topics.
+* [Seven Rules of Thumb for Web Site Experiments](https://www.exp-platform.com/Documents/2014%20experimentersRulesOfThumb.pdf) by Ron Kohavi et al. Non-technical paper on what is common/realistic for experiments. This is years of industry experience written down.
+* [A/B Testing Intuition Busters Common Misunderstandings in Online Controlled Experiments](https://www.researchgate.net/publication/361226478_AB_Testing_Intuition_Busters_Common_Misunderstandings_in_Online_Controlled_Experiments/link/62a3f4826886635d5ccf83a3/download) by Ron Kohavi et al. Some advanced, but important and often misunderstood concepts. A good way to test your knowledge. identify gaps for further research to avoid making errors.
+
+### Experimentation Platform 
+
+Despite sounding simple, experimentation platforms are complex, large engineering investments. If you didn’t previously work somewhere that built one or if this is your first time reading about them, seriously consider buying instead of building. We consider a full “how to” to be advanced topics. Here are a few resources to give you a feel though:
+
+
+* [Anatomy of a Large-Scale Experimentation Platform](https://www.researchgate.net/publication/324889185_The_Anatomy_of_a_Large-Scale_Online_Experimentation_Platform) by Pavel Dmitriev et al. An overview of the architecture behind Microsoft’s Experimentation Platform, including its four core components and the reasons behind their design. 
+* [The Modern Experimentation Stack](https://www.youtube.com/watch?v=AtFkQjyA9Pc) by Che Sharma. Video explainer of the components and challenges in an exp platform. If you don't have an hour to watch this, you don’t have time to build it. “Experimentation is a big pile of medium-sized problems that all need to work in concert.”
+* [Supporting Rapid Product Iteration with an Experimentation Analysis Platform](https://doordash.engineering/2020/09/09/experimentation-analysis-platform-mvp/) by Arun Balasubramani. DoorDash’s analysis engine for their exp platform, including why they automated and how they implemented it. Links to other useful posts.
+* [Experimentation Platform in a Day](https://medium.com/deliberate-data-science/experimentation-platform-in-a-day-c60646ef1a2) by Dan Frank. You’re an adult who can decide to build instead of buy. We both worked at companies where building made sense. It could make sense for you too (though, if you have to ask…). This post promises a quick start with code snippets for all pieces. Do this at your own risk or only as long as sensible.  
+
+## Conclusion
+
+We hope these starter kits have provided you a good jumping off point in your A/B testing journey. If you’re looking for more, check out our [GitHub repo](https://github.com/ewharton/ab-testing-resources), which includes resources on specific advanced topics like switchback tests and estimating network effects. If you found this post useful, we’re considering making more resources for common A/B testing pain points - if you want to register your interest (and have a say in which topics we tackle), take our [survey](https://forms.gle/G9KEsTZbiwnT6FU66)!
+
