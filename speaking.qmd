@@ -43,6 +43,10 @@ July 2017, New York Open Statistical Programming Meetup. [Recording](https://www
 
 ## Programming in R and Python
 
+## Introduction to Machine Learning in AWS
+
+April 2023, MLOps and AI Utah. [Slides](bit.ly/awsdogs_py).
+
 #### Don't Let the Snake Bite: Integrating Python with your R Workflow
 
 November 2022, Keynote at XII Conference of R Users, Spain. [Slides](https://rpubs.com/robinson_es/python_with_r).

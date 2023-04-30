@@ -15,7 +15,7 @@ about:
       href: https://github.com/robinsones
 ---
 
-I'm currently working as a data science consultant, primarily as an expert witness on a trade secrets case. Previously, I worked at Warby Parker as a senior data scientist on a centralized team tackling some of the company's biggest projects, including redesigning their experimentation platform and training and deploying machine learning models; at DataCamp, where I built and ran their experimentation analytics system; and at Etsy, where I worked with their search team to design, implement, and analyze experiments.
+I'm currently a senior data scientist at Game Data Pros, who develop tools and provide consulting for video game companies to make better decisions with data. Previously, I worked at Warby Parker as a senior data scientist on a centralized team tackling some of the company's biggest projects, including redesigning their experimentation platform and training and deploying machine learning models; at DataCamp, where I built and ran their experimentation analytics system; and at Etsy, where I worked with their search team to design, implement, and analyze experiments.
 
 I'm an author of the book [Build a Career in Data Science](https://www.manning.com/books/build-your-career-in-data-science?a_aid=buildcareer&a_bid=76784b6a) with [Jacqueline Nolis](https://jnolis.com/), and the [accompanying podcast](podcast.bestbook.cool). You can get 40% off the book with the code buildbook40%. I regularly give talks on A/B testing, R programming, and data science career advice at conferences and meetups (see all talks [here](https://hookedondata.org/speaking/)). 
 
