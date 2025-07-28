@@ -11,6 +11,7 @@ listing:
   categories: true
   sort-ui: false
   filter-ui: false 
+  fields: [title, subtitle, image, description, categories]
 page-layout: full
 title-block-banner: true
 ---

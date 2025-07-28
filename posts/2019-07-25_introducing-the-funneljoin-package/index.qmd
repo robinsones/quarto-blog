@@ -13,7 +13,6 @@ artist: Bradyn Trollip
 licence: unsplash free-to-use 
 -->
  
-Bradyn Trollip
 Have you ever had a "first this then that" question? For example, maybe you're an e-commerce business and you want all the times people clicked on an item and then added it to their cart within 2 days, or the last page they visited before registering. Or [you work with pharmaceutical data](https://twitter.com/scottishnp/status/1154657704578695168?s=20) and need to know what drugs people took before drug x and which drugs they took afterward and when. Or you [tag fish](https://twitter.com/Voovarb/status/1154445792125394945?s=20) and need to know where they went and if they eventually migrated upstream. 
 
 Enter the [funneljoin package](https://github.com/robinsones/funneljoin). The goal of funneljoin is to make it easy to analyze behavior funnels with the `after_join()`,  `funnel_start()`, and `funnel_step()` functions. If you work with data where you have events with their time and associated user, you probably have a problem funneljoin can help with. I created this package with [David Robinson](https://twitter.com/drob) and [Anthony Baker](https://www.linkedin.com/in/awbaker1/) in July 2018 and have continued to maintain and build on it since. 

@@ -33,7 +33,7 @@ October 2018, [PyData NYC](https://pydata.org/nyc2018/).
 
 October 2018, [Taiwanese Data Professionals](https://www.meetup.com/Taiwanese-Data-Professionals/events/vdgkdqyxnbjc/).
 
-####  A/B Testing in the Wild
+#### A/B Testing in the Wild
 
 October 2017, West Point Academy. [Slides](https://github.com/robinsones/AB-Testing-Slides/blob/master/AB%20Testing%20in%20the%20Wild.pdf).
 
@@ -43,7 +43,7 @@ July 2017, New York Open Statistical Programming Meetup. [Recording](https://www
 
 ## Programming in R and Python
 
-## Introduction to Machine Learning in AWS
+#### Introduction to Machine Learning in AWS
 
 April 2023, MLOps and AI Utah. [Slides](bit.ly/awsdogs_py).
 
